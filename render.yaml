@@ -3,9 +3,13 @@ services:
     name: django-web-service
     env: python
     buildCommand: |
+      cd myproject
       pip install -r requirements.txt
+      python manage.py migrate
     startCommand: |
-      python manage.py migrate && python manage.py collectstatic --noinput && gunicorn myproject.wsgi:application
+      cd myproject
+      python manage.py collectstatic --noinput
+      gunicorn myproject.wsgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: myproject.settings
