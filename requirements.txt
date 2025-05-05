@@ -1,7 +1,7 @@
-# Specify Django version (you can lock to a specific version if needed)
 Django>=4.2,<5.0
+gunicorn              # WSGI server for running Django
+whitenoise            # Serve static files in production
+psycopg2-binary       # If using PostgreSQL (Render offers PostgreSQL)
 
-# Optionally specify other packages
-# gunicorn             # If deploying with Gunicorn
-# psycopg2-binary      # If using PostgreSQL
-# Python 3.10+         # If needed
+# Optional but recommended
+python-decouple       # Manage secrets from environment variables
