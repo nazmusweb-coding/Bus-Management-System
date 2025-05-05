@@ -1,0 +1,7 @@
+# Specify Django version (you can lock to a specific version if needed)
+Django>=4.2,<5.0
+
+# Optionally specify other packages
+# gunicorn             # If deploying with Gunicorn
+# psycopg2-binary      # If using PostgreSQL
+# Python 3.10+         # If needed
