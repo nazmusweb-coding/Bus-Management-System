@@ -1,34 +1,168 @@
 {% extends 'myapp/base.html' %}
 {% block content %}
-<div class="container">
-    <center><h2 style="margin-top: 70px; background-color: blue;color: white">Welcome to Group-25 Transit Bus Reservation</h2></center>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&amp;family=Oswald:wght@200..700&amp;display=swap"
+        rel="stylesheet">
+
+    <style>
+        #back_gr {
+            width: 100%;
+            height: 100vh;
+        }
+
+        #img-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        #gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(5, 16, 54, 0.508), rgba(5, 16, 54, 0.284));
+            z-index: -1;
+
+        }
+
+        .btn-success {
+            color: rgb(255, 255, 255);
+            background-color: rgb(5, 16, 54);
+            border-color: rgb(5, 16, 54);
+            font-family: "Oswald";
+            border: 0px;
+            display: block;
+            width: 300px;
+            margin: 0px auto;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background-color: rgb(31, 65, 186);
+        }
+
+        .btn-success:active {
+            background-color: rgb(31, 65, 186);
+
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .mx-auto {
+            background-color: aliceblue;
+            padding: 50px 5px;
+            border-radius: 10px;
+            width: 400px;
+            box-sizing: content-box;
+        }
+
+        .mx-auto h2 {
+            text-align: center;
+            font-family: sans-serif;
+            color: rgb(5, 16, 54);
+            font-weight: bold;
+        }
+
+        .form-group {
+            display: block;
+        }
+
+        .col-form-label {
+            display: block;
+            padding-left: 65px;
+            color: rgb(5, 16, 54);
+            font-size: 18px;
+        }
+
+        #bar {
+            width: 200px;
+            height: 2px;
+            color: rgb(5, 16, 54);
+            text-align: center;
+            background-color: rgb(5, 16, 54);
+
+            margin: 0px auto;
+            margin-bottom: 30px;
+        }
+
+        .form-control {
+            width: 300px;
+            margin: 0px auto;
+            box-sizing: border-box;
+            border: 1px solid rgba(5, 16, 54, 0.405);
+        }
+
+        .csr {
+            text-align: center;
+            margin-top: 10px;
+            color: rgb(5, 16, 54);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="back_gr">
+        <img src="static/im3.jpg" id="img-background" />
+        <div id="gradient-overlay"></div>
+    </div>
+
+    <div class="container">
         <div class="row">
-            <div class="col-sm-6 mx-auto" style="margin-top: 70px">
-                <h2>Log in</h2>
+            <div class=" mx-auto" style="margin-top: 70px">
+                <h2>LOG IN</h2>
+
+                <div id="bar">
+
+                </div>
 
                 <form action="{% url 'signin' %}" method="post">
                     {% csrf_token %}
+
+
                     <div class="form-group row">
-                        <label for="example-email-input" class="col-2 col-form-label">Username:</label>
-                        <div class="col-10">
+                        <label for="example-email-input" class=" col-form-label">Username:</label>
+                        <div class="">
                             <input name='name' class="form-control" type="text" id="example-email-input">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="example-email-input" class="col-2 col-form-label">Password:</label>
-                        <div class="col-10">
+                        <label for="example-email-input" class=" col-form-label">Password:</label>
+                        <div class="">
                             <input name='password' class="form-control" type="password">
                         </div>
                     </div>
                     <div class="pull-right">
-                        <button type="Submit" class="btn btn-success float-right">Sign in</button>
+                        <button type="Submit" class="btn btn-success ">Sign in</button>
                     </div>
 
                 </form>
-                <p>{{error}}</p>
+                <p class="csr">{{error}}</p>
             </div>
         </div>
 
     </div>
+</body>
+
+</html>
+
 
 {% endblock %}

@@ -1,16 +1,90 @@
 {% extends 'myapp/base.html' %}
 {% block content %}
 
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&amp;family=Oswald:wght@200..700&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        .btn-success {
+            color: rgb(255, 255, 255);
+            background-color: rgb(5, 16, 54);
+            border-color: rgb(5, 16, 54);
+            font-family: "Oswald";
+            border: 0px;
+            display: block;
+            width: 300px;
+            margin: 0px auto;
+            margin-top: 35px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background-color: rgb(31, 65, 186);
+        }
+
+        .btn-success:active {
+            background-color: rgb(31, 65, 186);
+
+        }
+
+
+        .mx-auto {
+            background-color: rgb(34, 44, 89);
+            padding: 5px 0px;
+            border-radius: 10px;
+            width: 350px !important;
+            box-sizing: content-box;
+            margin: 150px auto !important;
+            height: 350px;
+        }
+
+        #icon {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        #succ {
+            text-align: center;
+            font-size: 25px;
+            color: beige;
+            font-family: sans-serif;
+            margin-top: 35px;
+            background-color: rgb(0, 68, 151);
+        }
+
+        #well {
+            text-align: center;
+            font-size: 15px;
+            color: beige;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
         <div class="row">
-            <div class="col-sm-6 mx-auto" style="margin-top: 70px">
+            <div class="mx-auto" style="margin-top: 70px">
+                <div id="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100"
+                        viewBox="0 0 48 48">
+                        <path fill="#c8e6c9" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path>
+                        <polyline fill="none" stroke="#4caf50" stroke-miterlimit="10" stroke-width="4"
+                            points="14,24 21,31 36,16"></polyline>
+                    </svg>
+                </div>
+                <p id="succ">LOG IN SUCCESSFULL</p>
                 <form action="{% url 'signout' %}" method="post">
                     {% csrf_token %}
-                    {{user}} successful login! {{id}}
-
-
+                    <p id="well">Welcome back {{user}} , you have been successfully logged in your account {{id}}</p>
                     <div class="pull-right">
-                        <button type="Submit" class="btn btn-success float-right">Sign out</button>
+                        <button type="Submit" class="btn btn-success">Sign out</button>
                     </div>
 
                 </form>
@@ -18,4 +92,10 @@
         </div>
 
     </div>
+</body>
+
+</html>
+
+
+
 {% endblock %}
