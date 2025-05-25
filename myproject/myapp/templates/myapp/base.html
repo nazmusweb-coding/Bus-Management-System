@@ -1,12 +1,11 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -14,7 +13,20 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&amp;family=Oswald:wght@200..700&amp;display=swap"
         rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&amp;family=Oswald:wght@200..700&amp;display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap" rel="stylesheet">
 
     <style>
         #nav_main {
@@ -26,6 +38,7 @@
             left: 0px;
             padding: 10px 50px;
             box-sizing: border-box;
+            height: 70px;
         }
 
         #nav_main a {
@@ -35,16 +48,38 @@
         #par_right_nav {
             display: flex;
             justify-content: space-between;
-            width: 100%;
+            width: 100% !important;
+            flex-direction: row;
+        }
+
+        #left_nav {
+            display: flex;
         }
 
         #right_nav {
             display: flex;
+            justify-content: space-between;
+        }
+
+        #left_nav a {
+            display: inline-block;
+            padding: 10px 40px 10px 0px;
         }
 
         #right_nav a {
             display: inline-block;
-            padding: 10px 40px 10px 0px;
+            padding: 10px 40px 10px 40px;
+        }
+
+        .nav-item {
+            font-family: "Oswald" !important;
+            font-size: 20px !important;
+            color: aliceblue !important;
+            text-decoration: none !important;
+        }
+
+        .nav-item:hover {
+            color: rgb(195, 216, 236) !important;
         }
 
         #pro_name {
@@ -52,19 +87,236 @@
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
+            display: flex;
+            align-items: center;
+            height: 70px;
+            top: 0px;
         }
 
-        #pro_name H1 {
+        #pro_name a {
             font-family: "Oswald";
             font-size: 40px;
             color: antiquewhite;
             margin: 0px;
+            display: block;
+            text-decoration: none;
+        }
+
+
+        #btn {
+            height: 20px;
+            width: 22px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            position: absolute;
+            right: 30px;
+            top: 30px;
+        }
+
+        #btn span {
+            width: 100%;
+            height: 2.5px;
+            background-color: rgb(255, 255, 255);
+            display: block;
+        }
+
+        #side {
+            position: fixed;
+            background-color: rgb(25, 53, 155);
+            width: 200px;
+            height: 100%;
+            top: 0px;
+            right: 0px;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+
+
+        #side:target {
+            transform: translateX(0);
+        }
+
+        #abcd {
+            display: flex;
+            flex-direction: column;
+            list-style-type: none;
+            padding: 0px;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+
+        #side a {
+            text-decoration: none;
+        }
+
+        #side header {
+            background-color: rgb(5, 16, 54);
+            display: flex;
+            height: 70px;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0px 24px;
+        }
+
+        footer {
+            background-color: rgb(35, 35, 35);
+            width: 100%;
+        }
+
+
+        footer p {
+            color: #f0f2f5;
+        }
+
+        #foot {
+            width: 100%;
+            background-color: rgb(35, 35, 35);
+            color: #fff;
+            display: flex;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: -20px;
+        }
+
+        #foot div {
+            width: 300px;
+        }
+
+        #first_footer_div {
+            width: 450px !important;
+            padding-right: 40px;
+        }
+
+        #foot ul {
+            list-style-type: none;
+        }
+
+        #foot div {
+            margin-top: 50px;
+        }
+
+        #foot ul li {
+            margin-top: 20px;
+        }
+
+        #foot ul li a {
+            text-decoration: none;
+        }
+
+        #foot div h2 {
+            font-size: 45px;
+            font-family: "Oswald";
+            color: #f0f2f5;
+            padding-left: 45px;
+            margin-top: 15px;
+        }
+
+        #foot div p {
+            padding-left: 40px;
+            font-size: 15px;
+            font-family: 'fira Sans';
+            color: #f0f2f5;
+            margin-top: 20px;
+        }
+
+
+
+        #last {
+            width: 240px;
+            display: flex;
+            list-style: none;
+            justify-content: space-between;
+        }
+
+        #last li img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+        }
+
+        #last_p {
+            padding-bottom: 30px;
+            padding-top: 45px;
+            text-align: center;
+            margin: 0px;
+        }
+
+        #bold {
+            font-weight: bold;
+            font-size: 20px;
+            font-family: sans-serif;
+        }
+
+        .dropdown-header {
+            padding: 2px 0;
+        }
+
+        .dropdown-container {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgb(25, 53, 155);
+            padding: 10px 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            border-radius: 4px;
+            min-width: 200px;
+        }
+
+        .dropdown-content a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 0;
+            white-space: nowrap;
+        }
+
+        .dropdown-content a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+        @media (min-width:768px) {
+            #btn {
+                display: none;
+            }
+        }
+
+        @media (max-width:768px) {
+            #right_nav {
+                display: none;
+            }
+
+            #left_nav {
+                display: none;
+            }
+
+            #pro_name {
+                position: absolute;
+                left: 30px;
+                transform: translateX(0%);
+            }
+
+            #pro_name H1 {
+                font-size: 30px;
+            }
         }
     </style>
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-success" id="nav_main">
+<body style="padding-top: 20px;">
+    <nav id="nav_main">
         <!--
             <div class="container">
             <a class="navbar-brand" href="#" style="color: white;">Group-25 Transit Incorporated</a>
@@ -73,9 +325,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
         -->
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div>
             <div class="navbar-nav" id="par_right_nav">
-                <div id="right_nav">
+                <div id="left_nav">
                     <a class="nav-item nav-link active" href="{% url 'home' %}" style="color: white;">Home <span
                             class="sr-only">(current)</span></a>
                     <a class="nav-item nav-link" href="{% url 'findbus' %}" style="color: white;">Find Bus</a>
@@ -83,22 +335,153 @@
                         Bookings</a>
                 </div>
                 <div id="pro_name">
-                    <H1>ELITE TRAVEL</H1>
+                    <a href="{% url 'home' %}">ELITE TRAVEL</a>
                 </div>
-                {% if request.user.is_active %}
-                <a class="nav-item nav-link " href="{% url 'signout' %}" style="color: white;">Sign out</a>
-                {% else %}
-                <a class="nav-item nav-link " href="{% url 'signup' %}" style="color: white;">Sign
-                    Up</a>
-                {% endif %}
+                <div id="right_nav">
+                    {% if request.user.is_active %}
+                    {% if request.user.is_superuser %}
+                    <!-- Manage Dropdown -->
+                    <div class="dropdown-container">
+                        <div class="dropdown-header" onclick="toggleDropdown('dropdown-content-desktop')">
+                            <span class="nav-item nav-link" style="color: white; cursor: pointer;">Manage</span>
+                        </div>
+                        <div id="dropdown-content-desktop" class="dropdown-content hidden">
+                            <a class="nav-item nav-link" href="{% url 'admin_bus_list' %}"
+                                style="color: white;">Buses</a>
+                            <a class="nav-item nav-link" href="{% url 'admin_manage_bookings' %}"
+                                style="color: white;">Bookings</a>
+                            <a class="nav-item nav-link" href="{% url 'admin_booking_view' %}"
+                                style="color: white;">Booking Details</a>
+                            <a class="nav-item nav-link" href="{% url 'manage_blogs' %}" style="color: white;">Blogs</a>
+                            <a class="nav-item nav-link" href="{% url 'manage_gallery' %}"
+                                style="color: white;">Gallery</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div><a class="nav-item nav-link" href="{% url 'signout' %}" style="color: white;">Sign out</a>
+                    </div>
+                    {% else %}
+                    <div><a class="nav-item nav-link" href="{% url 'signin' %}" style="color: white;">Sign in</a></div>
+                    <div><a class="nav-item nav-link" href="{% url 'signup' %}" style="color: white;">Sign Up</a></div>
+                    {% endif %}
+                </div>
+
+
+                <a id="btn" href="#side">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+
+
             </div>
         </div>
         </div>
     </nav>
 
 
+    <aside id="side">
+        <header>
+            <a id="btn" href="#">
+                <span></span>
+                <span></span>
+                <span></span>
+            </a>
+        </header>
+        <nav>
+            <div id="abcd">
+
+                <div><a class="nav-item nav-link active" href="{% url 'home' %}" style="color: white;">Home <span
+                            class="sr-only">(current)</span></a></div>
+                <div><a class="nav-item nav-link" href="{% url 'findbus' %}" style="color: white;">Find Bus</a></div>
+                <div><a class="nav-item nav-link" href="{% url 'seebookings' %}" style="color: white;">See Bookings</a>
+                </div>
+
+
+
+                {% if request.user.is_active %}
+                {% if request.user.is_superuser %}
+                <!-- Manage Dropdown -->
+
+                <div> <a class="nav-item nav-link" href="{% url 'admin_bus_list' %}" style="color: white;">Buses</a>
+                </div>
+                <div><a class="nav-item nav-link" href="{% url 'admin_manage_bookings' %}"
+                        style="color: white;">Bookings</a></div>
+                <div>
+                    <a class="nav-item nav-link" href="{% url 'admin_booking_view' %}" style="color: white;">Booking
+                        Details</a>
+                </div>
+                <div> <a class="nav-item nav-link" href="{% url 'manage_blogs' %}" style="color: white;">Blogs</a></div>
+                <div> <a class="nav-item nav-link" href="{% url 'manage_gallery' %}" style="color: white;">Gallery</a>
+                </div>
+
+                {% endif %}
+
+
+
+                <div><a class="nav-item nav-link" href="{% url 'signout' %}" style="color: white;">Sign out</a></div>
+                {% else %}
+                <div><a class="nav-item nav-link" href="{% url 'signin' %}" style="color: white;">Sign in</a></div>
+                <div><a class="nav-item nav-link" href="{% url 'signup' %}" style="color: white;">Sign Up</a></div>
+                {% endif %}
+            </div>
+        </nav>
+    </aside>
+
+
     {% block content %}
     {% endblock %}
+
+
+    <footer>
+        <div id="foot">
+            <div id="first_footer_div">
+                <h2>ELITE TRAVEL</h2>
+                <p>Elite Travel, owned and operated by Elite Limited, is Bangladesh's largest online ticket destination,
+                    which
+                    is
+                    committed to making your life convenient, easier and smarter.</p>
+            </div>
+
+            <div>
+                <ul>
+                    <li id="bold">Quick links</li>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'about_us' %}">About Us</a></li>
+                    <li><a href="{% url 'gallery_list' %}">Travel Gallery</a></li>
+                    <li><a href="{% url 'blog' %}">Blog</a></li>
+                    <li><a href="{% url 'verify_invoice' %}">Invoice Verifier</a></li>
+                </ul>
+
+            </div>
+
+            <div>
+                <ul>
+                    <li id="bold">Support</li>
+                    <li><a href="{% url 'cookies' %}">Cookies Policy</a></li>
+                    <li><a href="{% url 'legal_notice' %}">Legal Notice</a></li>
+                    <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'terms' %}">Terms and Conditions</a></li>
+                    <li><a href="{% url 'refund' %}">Refund Policy</a></li>
+                </ul>
+
+            </div>
+
+            <div>
+                <p id="bold" style="font-size: 20px; height:50px">Contact us</p>
+                <ul id="last">
+                    <li><a href="https://www.facebook.com/elitetravel"><img src="{% static 'icons/facebook.png' %}"></a>
+                    </li>
+                    <li><a href="https://wa.me/8801234567890"><img src="{% static 'icons/whats.png' %}"></a></li>
+                    <li><a href="mailto:info@elitetravel.com"><img src="{% static 'icons/gmail.png' %}"></a></li>
+                </ul>
+            </div>
+
+        </div>
+        <p id="last_p">Copyright © 2015 - 2025 Elite Ltd. All Rights Reserved.</p>
+    </footer>
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -110,6 +493,25 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <script>
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            if (dropdown) {
+                dropdown.classList.toggle('hidden');
+            } else {
+                console.error("Dropdown not found:", id);
+            }
+        }
+    </script>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('side');
+            mobileMenu.classList.toggle('hidden');
+        }
+    </script>
+
+
 </body>
 
 </html>

@@ -1,0 +1,86 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<style>
+  .page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    padding-top: 100px;     /* space from top (navbar) */
+    padding-bottom: 100px;  /* space from bottom (footer) */
+    box-sizing: border-box;
+    background: #f5f7fa;
+    flex-direction: column;
+  }
+
+  .detail-container {
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .detail-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    color: #051036;
+    margin-bottom: 20px;
+  }
+
+  .detail-image {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .detail-description {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 16px;
+    text-align: justify;
+    color: #333;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #1f41ba;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .back-link:hover {
+    color: #122b8c;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .detail-container {
+      padding: 15px;
+    }
+
+    .detail-title {
+      font-size: 22px;
+    }
+
+    .detail-description {
+      font-size: 14px;
+    }
+  }
+</style>
+
+<div class="page-wrapper">
+  <div class="detail-container">
+    <h2 class="detail-title">{{ photo.title }}</h2>
+    <img src="{{ photo.photo.url }}" alt="{{ photo.title }}" class="detail-image" />
+    <p class="detail-description">{{ photo.description }}</p>
+    <a href="{% url 'gallery_list' %}" class="back-link">← Back to Gallery</a>
+  </div>
+</div>
+{% endblock %}

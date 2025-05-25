@@ -1,0 +1,187 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&amp;family=Oswald:wght@200..700&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        #back_gr {
+            width: 100%;
+            height: 100vh;
+        }
+
+        #img-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        #gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(5, 16, 54, 0.508), rgba(5, 16, 54, 0.284));
+            z-index: -1;
+
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .mx-auto {
+            background-color: aliceblue;
+            padding: 50px 5px;
+            border-radius: 10px;
+            width: 75%;
+            max-width: 400px;
+            box-sizing: content-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #bar {
+            width: 200px;
+            height: 2px;
+            color: rgb(5, 16, 54);
+            text-align: center;
+            background-color: rgb(5, 16, 54);
+
+            margin: 0px auto;
+            margin-bottom: 30px;
+        }
+
+        .mx-auto h2 {
+            text-align: center;
+            font-family: sans-serif;
+            color: rgb(5, 16, 54);
+            font-weight: bold;
+        }
+
+        .btn-success {
+            color: rgb(255, 255, 255);
+            background-color: rgb(5, 16, 54);
+            border-color: rgb(5, 16, 54);
+            font-family: "Oswald";
+            border: 0px;
+            display: block;
+            width: 300px;
+            margin: 0px auto;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-success:hover {
+            background-color: rgb(31, 65, 186);
+        }
+
+        .btn-success:active {
+            background-color: rgb(31, 65, 186);
+
+        }
+
+        .form-group {
+            display: block;
+        }
+
+        .col-form-label2 {
+            display: block;
+            color: rgb(5, 16, 54);
+            font-size: 18px;
+            font-family: 'Fira Sans';
+            width: 300px;
+        }
+
+        .form-control {
+            width: 300px;
+            margin: 0px auto;
+            box-sizing: border-box;
+            border: 1px solid rgba(5, 16, 54, 0.405);
+        }
+
+        @media (max-width:768px) {
+            .form-control {
+                width: 220px;
+            }
+
+            .btn-success {
+                width: 220px;
+            }
+
+            .col-form-label2 {
+                width: 220px;
+            }
+
+            .mx-auto {
+                padding: 25px 0px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="back_gr">
+        <img src="static/im3.jpg" id="img-background" />
+        <div id="gradient-overlay"></div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto" style="margin-top: 70px">
+                <form action="{% url 'signup' %}" method="post"
+                    style="width:100%; display: flex; flex-direction: column; align-items: center;">
+                    <h2>SIGN UP</h2>
+                    <div id="bar">
+                    </div>
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="example-email-input" class="col-form-label2">Email:</label>
+                        <div>
+                            <input name='email' class="form-control" type="text" id="example-email-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-email-input" class="col-form-label2">Username:</label>
+                        <div>
+                            <input name='name' class="form-control" type="text" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-email-input" class="col-form-label2">Password:</label>
+                        <div>
+                            <input name='password' class="form-control" type="text" required>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-success">Sign up</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+{% endblock %}

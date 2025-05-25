@@ -1,0 +1,128 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="container">
+        <h1 style="font-family: Oswald;">Invoice Verifier</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="booking_id" style="font-family: 'Fira Sans';">Booking ID:</label>
+            <input type="text" name="booking_id" id="booking_id" required autocomplete="off">
+            <button type="submit" style="font-family: 'Fira Sans';">Verify</button>
+        </form>
+
+        {% if checked %}
+        <div style="font-family: 'Fira Sans';" class="result 
+                {% if status == 'BOOKED' %}booked
+                {% elif status == 'CANCELLED' %}cancelled
+                {% else %}invalid{% endif %}">
+            Status: {{ status }}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    /* Full-page flex wrapper */
+    .page-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /*padding-top: 70px; */
+        /* adjust for fixed navbar */
+        box-sizing: border-box;
+        background: #f5f5f5;
+    }
+
+    .container {
+        background: white;
+        width: 100%;
+        max-width: 500px;
+        padding: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        box-sizing: border-box;
+        margin: 0 15px;
+        /* for mobile spacing */
+    }
+
+    h1 {
+        text-align: center;
+        color: #051036;
+        margin-bottom: 30px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        margin-top: 10px;
+        padding: 12px;
+        font-size: 16px;
+        background: #051036;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all ease 0.3s;
+    }
+
+    button:hover {
+        background-color: #0a1d66;
+    }
+
+    .result {
+        margin-top: 30px;
+        padding: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    .booked {
+        color: green;
+        border: 2px solid green;
+    }
+
+    .cancelled {
+        color: red;
+        border: 2px solid red;
+    }
+
+    .invalid {
+        color: #b30086;
+        border: 2px solid #b30086;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+        .container {
+            padding: 20px;
+        }
+
+        input[type="text"],
+        button {
+            font-size: 14px;
+        }
+    }
+</style>
+
+{% endblock %}

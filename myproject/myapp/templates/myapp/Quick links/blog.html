@@ -1,0 +1,40 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<style>
+    .center-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    .blog-container {
+        max-width: 800px;
+        width: 100%;
+        text-align: center;
+    }
+    .blog-post {
+        margin-bottom: 40px;
+        text-align: left;
+    }
+    .blog-post p {
+        text-align: justify;  /* <-- added this */
+    }
+</style>
+
+<div class="center-wrapper">
+    <div class="blog-container">
+        <h2 style="font-family: 'Oswald'; color: #051036;">Notices & Announcements</h2>
+        <hr style="margin: 20px auto; width: 60%;">
+        {% for blog in blogs %}
+            <div class="blog-post">
+                <h3 style="color: #1f41ba;">{{ blog.title }}</h3>
+                <small style="color: gray;">{{ blog.date_posted }}</small>
+                <p style="font-size: 16px; font-family: 'Fira Sans';">{{ blog.content }}</p>
+            </div>
+        {% empty %}
+            <p>No notices available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

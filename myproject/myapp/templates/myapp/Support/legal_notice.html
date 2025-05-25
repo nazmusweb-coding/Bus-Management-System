@@ -1,0 +1,41 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<style>
+.legal-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    text-align: left;
+}
+
+.legal-container h2 {
+    text-align: center;
+    font-family: 'Oswald';
+    color: #051036;
+    margin-bottom: 20px;
+}
+
+.legal-container p {
+    font-size: 16px;
+    line-height: 1.6;
+    font-family: 'Fira Sans';
+    color: #333;
+    text-align: justify;
+}
+</style>
+
+<div class="legal-container">
+    <h2>Legal Notice</h2>
+    <p>This website is operated by <em>ELITE TRAVEL</em>, located at Haji Camp Airport, and registered under the applicable laws of Bangladesh.</p>
+
+    <p>All content, images, and materials on this site are the property of <em>ELITE TRAVEL</em>, unless otherwise stated. Unauthorized use or reproduction is strictly prohibited and may result in legal action.</p>
+
+    <p>For any legal inquiries, you may contact us at: <strong>info@elitetravel.com</strong>.</p>
+
+    <p>By using this website, you agree to the terms outlined in this legal notice.</p>
+</div>
+{% endblock %}

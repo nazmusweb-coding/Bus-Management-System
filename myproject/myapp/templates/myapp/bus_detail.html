@@ -1,0 +1,124 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<style>
+  .page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+    padding: 40px 20px;
+  }
+
+  .bus-detail-container {
+    max-width: 900px;
+    width: 100%;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+
+  .bus-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    color: #051036;
+    margin-bottom: 10px;
+  }
+
+  .bus-info {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .reviews-section {
+    margin-top: 40px;
+  }
+
+  .review-card {
+    border-top: 1px solid #ddd;
+    padding: 15px 0;
+  }
+
+  .review-user {
+    font-weight: bold;
+    color: #051036;
+  }
+
+  .review-rating {
+    color: #f5a623;
+  }
+
+  .review-comment {
+    margin: 8px 0 0 0;
+    font-style: italic;
+    color: #555;
+  }
+
+  .add-review-btn {
+    margin-top: 30px;
+    display: inline-block;
+    background-color: #1f41ba;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .add-review-btn:hover {
+    background-color: #122b8c;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .bus-title {
+      font-size: 24px;
+    }
+
+    .bus-detail-container {
+      padding: 15px;
+    }
+  }
+</style>
+
+<div class="page-wrapper">
+  <div class="bus-detail-container">
+    <h1 class="bus-title">{{ bus.name }}</h1>
+    <div class="bus-info">
+      <p><strong>Route:</strong> {{ bus.source }} → {{ bus.dest }}</p>
+      <p><strong>Price:</strong> ${{ bus.price }}</p>
+      <p><strong>Departure Time:</strong> {{ bus.time }}</p>
+      <p><strong>Date:</strong> {{ bus.date }}</p>
+    </div>
+
+    <div class="reviews-section">
+      <h2>Reviews</h2>
+      {% if reviews %}
+        {% for review in reviews %}
+          <div class="review-card">
+            <div class="review-user">{{ review.user.username }}</div>
+            <div class="review-rating">
+              {% for i in "12345" %}
+                {% if forloop.counter <= review.rating %}
+                  ★
+                {% else %}
+                  ☆
+                {% endif %}
+              {% endfor %}
+            </div>
+            <p class="review-comment">{{ review.comment }}</p>
+            <small>Reviewed on {{ review.created_at|date:"F j, Y, g:i a" }}</small>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No reviews yet for this bus. Be the first to <a href="{% url 'add_review' bus.id %}">write a review</a>!</p>
+      {% endif %}
+    </div>
+
+    <a href="{% url 'add_review' bus.id %}" class="add-review-btn">Add Your Review</a>
+  </div>
+</div>
+{% endblock %}

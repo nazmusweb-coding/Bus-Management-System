@@ -1,0 +1,206 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+
+<div class="full-screen-loader">
+    <div class="content-wrapper">
+        <h2
+            style="margin-bottom: 20px; padding-top: 30px; color: rgb(5, 16, 54); text-align: center; font-family: Oswald;">
+            Manage Travel Gallery</h2>
+        <a href="{% url 'create_or_edit_gallery' %}" class="add-blog-btn">➕ Add New Photo</a>
+    </div>
+
+    <div style="display: flex; position: relative;">
+        <div class="blog-container">
+            <div class="blog-list w-100">
+
+                <!-- Desktop Table -->
+                <table class="table table-striped blog-table w-100">
+                    <thead style="background-color: rgb(5, 16, 54); color: white;">
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Thumbnail</th>
+                            <th>Date Added</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in galleries %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.title }}</td>
+                            <td><img src="{{ item.photo.url }}" width="80" style="border-radius: 4px;" /></td>
+                            <td>{{ item.date_added|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <a href="{% url 'create_or_edit_gallery' item.pk %}" class="edit-btn">Edit</a>
+                                <form action="{% url 'delete_gallery' item.pk %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="delete-btn">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No gallery items found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Mobile Card View -->
+                <div class="blog-cards">
+                    {% for item in galleries %}
+                    <div class="blog-card">
+                        <p><strong>ID:</strong> {{ item.id }}</p>
+                        <p><strong>Title:</strong> {{ item.title }}</p>
+                        <p><strong>Date:</strong> {{ item.date_added|date:"Y-m-d H:i" }}</p>
+                        <img src="{{ item.photo.url }}" width="100%" style="border-radius: 4px; margin: 10px 0;" />
+                        <div style="display: flex; flex-direction: column;">
+                            <a href="{% url 'create_or_edit_gallery' item.pk %}" class="edit-btn">Edit</a>
+                            <form action="{% url 'delete_gallery' item.pk %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted" style="text-align: center;">No gallery items found.</p>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Fira Sans';
+    }
+
+    .full-screen-loader {
+        min-height: 100vh;
+    }
+
+    .content-wrapper {
+        padding: 0 20px;
+        margin-top: 70px;
+        background-color: #f8f8f8;
+    }
+
+    .add-blog-btn {
+        background-color: rgb(5, 16, 54);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 5px;
+        text-decoration: none !important;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 20px;
+        transition: all 0.4s ease;
+    }
+
+    .add-blog-btn:hover {
+        background-color: #3367d6;
+        color: white;
+    }
+
+    .blog-container {
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .blog-table {
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        table-layout: fixed;
+    }
+
+    .blog-table th,
+    .blog-table td {
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .edit-btn {
+        background-color: #2196f3;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        margin-right: 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .edit-btn:hover {
+        background-color: #1976d2;
+    }
+
+    .delete-btn {
+        background-color: #e53935;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .delete-btn:hover {
+        background-color: #c62828;
+    }
+
+    .blog-cards {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .blog-table {
+            display: none;
+        }
+
+        .blog-cards {
+            display: block;
+            padding: 0 10px;
+        }
+
+        .blog-card {
+            width: 100%;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .blog-card p {
+            margin: 5px 0;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .edit-btn {
+            margin-bottom: 5px;
+        }
+
+        .text-muted {
+            color: #888;
+        }
+    }
+</style>
+
+{% endblock %}

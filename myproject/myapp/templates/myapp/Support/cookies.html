@@ -1,0 +1,39 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<style>
+.cookies-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    text-align: left;
+}
+
+.cookies-container h2 {
+    text-align: center;
+    font-family: 'Oswald';
+    color: #051036;
+    margin-bottom: 20px;
+}
+
+.cookies-container p {
+    font-size: 16px;
+    line-height: 1.6;
+    font-family: 'Fira Sans';
+    color: #333;
+    text-align: justify;
+}
+</style>
+
+<div class="cookies-container">
+    <h2>Cookies Policy</h2>
+    <p>We use cookies to improve your browsing experience on our website, show personalized content and ads, analyze site traffic, and understand where our visitors are coming from.</p>
+
+    <p>Cookies are small data files that are placed on your device or computer and often include an anonymous unique identifier. You can disable cookies through your browser settings, but some features of the site may not function properly without them.</p>
+
+    <p>By continuing to use our website, you consent to our use of cookies in accordance with this policy.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,485 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bus Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&amp;family=Oswald:wght@200..700&amp;display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      background-color: rgb(210, 210, 210);
+      padding: 0px;
+    }
+
+    /* Background */
+    #back_gr {
+      width: 100%;
+      height: 100vh;
+    }
+
+    #img-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      /* Put behind everything */
+    }
+
+    #gradient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(5, 16, 54, 0.682), rgba(5, 16, 54, 0.284));
+      z-index: -1;
+      /* Above the image but below the overlay */
+    }
+
+
+    #comp {
+      font-family: sans-serif;
+      font-size: 50px;
+      text-align: center;
+      font-family: "Monda";
+    }
+
+    /* Overlay */
+    .overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 10px;
+      text-align: center;
+      color: #fff;
+      width: 80%;
+      max-width: 900px;
+      z-index: 1;
+    }
+
+    .cta-button {
+      color: #fff;
+      font-size: 15px;
+      padding: 5px 35px !important;
+      border: 1px solid rgba(255, 255, 255, 1);
+      font-family: 'Fira Sans';
+      text-decoration: none !important;
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background-color: rgb(5, 16, 54);
+      border-color: rgba(5, 16, 54, 0.99);
+      color: #f0f2f5;
+      border-radius: 5px;
+    }
+
+    #coach_head {
+      margin: 50px auto;
+      font-size: 32px;
+      font-family: "Oswald";
+      text-align: center;
+      color: rgb(5, 16, 54);
+    }
+
+    #coach {
+      width: 83%;
+      display: flex;
+      justify-content: space-between;
+      margin: 0px auto;
+      flex-wrap: wrap;
+    }
+
+
+    .sub {
+      position: relative;
+      width: 300px;
+      margin: 0 auto;
+
+    }
+
+    #img-cont {
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      padding: 0px;
+      margin: 0px;
+      border-radius: 10px;
+      border: 0px;
+      box-shadow: 2px 2px 5px black;
+    }
+
+    .sub img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: all 0.6s ease;
+    }
+
+    .sub img:hover {
+      transform: scale(1.05);
+    }
+
+
+    .sub p {
+      text-align: center;
+      color: rgba(5, 16, 54, 0.9982);
+      font-size: 20px;
+      font-family: "Monda";
+      margin-top: 10px;
+
+    }
+
+    .fu11 {
+      display: flex;
+      width: 80%;
+      justify-content: center;
+      color: #f0f2f5;
+      margin: 0px auto;
+      border: 1px solid white;
+      padding: 5px 5px;
+      position: relative;
+      bottom: 90px;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.296);
+      transition: all 0.3s ease;
+    }
+
+
+    .sub div:hover {
+      color: #ececec;
+      border-color: #d2d3d5;
+    }
+
+
+
+    .sub div a {
+      color: #f0f2f5;
+      font-family: 'Fira Sans';
+      text-decoration: none;
+    }
+
+
+    .c8 {
+      padding: 20px 0px 50px 0px;
+
+    }
+
+    .c8 h2 {
+      text-align: center;
+      font-family: 'Oswald';
+      font-size: 32px;
+      color: rgb(5, 16, 54);
+      margin-top: 30px;
+      margin-bottom: 50px;
+    }
+
+    .c9 {
+      display: flex;
+      width: 85%;
+      justify-content: space-evenly;
+      margin: 10px auto;
+      padding: 0px;
+      flex-wrap: wrap;
+
+    }
+
+    .c9 li {
+      list-style-type: none;
+      margin: 0 auto;
+    }
+
+    .c9 li div {
+      height: 400px;
+      width: 300px;
+      border-radius: 10px;
+      border: 0px;
+      margin: 0px;
+      padding: 0px;
+      overflow: hidden;
+      box-shadow: 2px 2px 5px black;
+    }
+
+    .c9 li div img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: all 0.6s ease;
+    }
+
+    .c9 li div img:hover {
+      transform: scale(1.05);
+    }
+
+    .c9 p {
+      text-align: center;
+      font-family: "Fira Sans";
+      font-size: 18px;
+      color: rgb(5, 16, 54);
+      margin-top: 15px;
+    }
+
+
+
+    #bold {
+      font-weight: bold;
+      font-size: 20px;
+      font-family: sans-serif;
+    }
+
+
+
+    /* .review-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+    .review-card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        width: 280px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    } */
+
+
+    .review-date {
+      font-size: 12px;
+      color: #999;
+      text-align: right;
+      font-style: italic;
+    }
+
+    .review-rating {
+      color: #e6b800;
+      margin: 12px 0 2px 0;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+
+    /*
+    .review-comment {
+      font-size: 14px;
+      color: #444;
+      line-height: 1.4;
+      flex-grow: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+
+*/
+
+    p {
+      font-size: 14px;
+      color: #444;
+      line-height: 1.4;
+      overflow: hidden;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      margin-bottom: 6px;
+    }
+
+
+    .review-bus {
+      font-size: 13px;
+      color: #556080;
+      margin-bottom: 12px;
+    }
+
+
+    .review-name {
+      font-family: 'Fira Sans', sans-serif;
+      color: #23395d;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+
+    .review-container {
+      display: flex;
+      width: 85%;
+      margin: 0 auto 50px auto;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .review-card {
+      background-color: #fff;
+      width: 400px !important;
+      border-radius: 12px;
+      padding: 18px 22px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 260px;
+      margin: 15px 15px;
+
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(5, 16, 54, 0.182);
+    }
+
+    @media (max-width:768px) {
+      #comp {
+        font-size: 35px;
+      }
+
+      #coach_head {
+        font-size: 30px;
+      }
+
+      .c8 h2 {
+        font-size: 30px;
+      }
+
+    }
+
+    @media (max-width: 480px) {
+      .review-card {
+        min-height: 285px;
+        height: auto;
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="back_gr">
+    <img src="static/im3.jpg" id="img-background" />
+    <div id="gradient-overlay"></div>
+  </div>
+
+
+  <div class="overlay">
+    <h2 id="comp">FIND NEXT PLACE TO VISIT</h2>
+    <p style="font-size: 15px;  font-family: 'Fira Sans'; color: #ffffff; margin: 0  auto 8px auto;">Discover amazing
+      places at
+      exclusice deals
+    </p>
+    <a href="findbus" class="cta-button">Get Started</a>
+  </div>
+
+  <H3 id="coach_head">OUR COACHES</H3>
+  <div id="coach">
+    <div id="first" class="sub">
+      <div id="img-cont"><img src="static/img4.jpg"></div>
+      <p>HINO</p>
+      <div class="fu11">
+        <a href="https://www.hino-global.com/" target="_blank">LEARN MORE</a>
+      </div>
+
+
+    </div>
+    <div id="second" class="sub">
+      <div id="img-cont"><img src="static/img5.jpg"></div>
+      <p>HYUNDAI</p>
+      <div class="fu11">
+        <a href="https://trucknbus.hyundai.com/global/products/bus/universe" target="_blank">LEARN MORE</a>
+      </div>
+
+    </div>
+    <div id="third" class="sub">
+      <div id="img-cont"><img src="static/img8.jpg"></div>
+      <p>SCANIA</p>
+      <div class="fu11">
+        <a href="https://www.scania.com/" target="_blank">LEARN MORE</a>
+      </div>
+
+    </div>
+    <div id="fourth" class="sub">
+      <div id="img-cont"><img src="static/img9.jpg"></div>
+      <p>VOLVO</p>
+      <div class="fu11">
+        <a href="https://www.volvo.com/en/" target="_blank">LEARN MORE</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="c8">
+    <h2>POPULAR ROUTES</h2>
+    <ul class="c9">
+      <li>
+        <div><img src="static/chi.jpg"></div>
+        <p>Dhaka - Chittagong </p>
+      </li>
+      <li>
+        <div><img src="static/syl.jpg"></div>
+        <p>Dhaka - Sylhet </p>
+      </li>
+      <li>
+        <div><img src="static/cox.jpg"></div>
+        <p> Chittagong - Coxsbazar</p>
+      </li>
+      <li>
+        <div> <img src="static/raj.jpg"> </div>
+        <p> Dhaka - Rajshahi</p>
+      </li>
+    </ul>
+  </div>
+
+  <h2 style="font-family: 'Oswald'; text-align: center; margin: 20px 0; color: #051036;">What People Are Saying</h2>
+
+  <div class="review-container">
+    {% for review in reviews %}
+    <div class="review-card" style="font-family: 'Fira Sans';">
+      <div>
+        <h4 class="review-name">{{ review.name }}</h4>
+        <p class="review-bus"><b>Bus:</b> {{ review.bus.bus_name }}</p>
+        <p class="review-comment">{{ review.comment|linebreaks }}</p>
+      </div>
+      <div>
+        <p class="review-rating">
+          {% for i in "12345"|slice:":review.rating"|make_list %}
+          ★
+          {% endfor %}
+        </p>
+        <small class="review-date">{{ review.created_at|date:"M d, Y - h:i A" }}</small>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+
+
+</body>
+
+</html>
+{% endblock %}

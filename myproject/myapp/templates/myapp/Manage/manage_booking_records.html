@@ -1,0 +1,435 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Fira Sans';
+    }
+
+    input[type="text"] {
+        vertical-align: middle;
+        margin-bottom: 0.25rem;
+        padding: 6px 8px;
+        /* adjust if needed */
+        line-height: 1.2;
+        font-size: 1rem;
+        /* match label font size */
+        box-sizing: border-box;
+    }
+
+    #route-fields {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .input-wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .input-parent {
+        position: relative;
+    }
+
+    .suggestions-box {
+        position: absolute;
+        top: 100%;
+        left: 10;
+        width: 85%;
+        background-color: white;
+        border: 1px solid #ccc;
+        max-height: 150px;
+        overflow-y: auto;
+        z-index: 10;
+        box-sizing: border-box;
+    }
+
+    .suggestions-box div {
+        padding: 8px;
+        cursor: pointer;
+        font-family: 'Fira Sans';
+    }
+
+    .suggestions-box div:hover {
+        background-color: #f0f0f0;
+    }
+
+    .autocomplete-suggestions {
+        border: 1px solid #ccc;
+        max-height: 150px;
+        overflow-y: auto;
+        background-color: white;
+        position: absolute;
+        z-index: 1000;
+        width: 100%;
+    }
+
+    .suggestion-item {
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .suggestion-item:hover {
+        background-color: #f0f0f0;
+    }
+
+    .edit-container {
+        max-width: 80%;
+        margin: 0 auto;
+        padding: 80px 20px 40px;
+        /* 80px top padding to avoid navbar */
+        min-height: 100vh;
+        /* ensure content fills most of the screen */
+        background-color: #fff;
+    }
+
+    .edit-container h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #1f41ba;
+        font-weight: bold;
+    }
+
+    .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .form-row button:hover {
+        background-color: #1f41ba !important;
+        color: white;
+        cursor: pointer;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    table th,
+    table td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
+
+    #extra-bu {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    #extra-bu a {
+        display: block;
+        margin: 5px 10px;
+        width: 100px;
+    }
+
+    body {
+        font-family: 'Fira Sans';
+    }
+
+    @media (max-width: 768px) {
+        .edit-container {
+            padding: 60px 10px 30px;
+        }
+
+        #route-fields {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .input-wrapper {
+            width: 100% !important;
+        }
+
+        .suggestions-box {
+            width: 100% !important;
+        }
+
+        form select,
+        form input[type="text"],
+        form input[type="date"],
+        form button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        table thead,
+        table tbody,
+        table th,
+        table td,
+        table tr {
+            display: block;
+        }
+
+        table tr {
+            margin-bottom: 1rem;
+        }
+
+        table th,
+        table td {
+            text-align: left;
+            padding: 8px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+        }
+
+        table thead {
+            display: none;
+        }
+
+        table td::before {
+            content: attr(data-label);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 4px;
+            color: #555;
+        }
+    }
+</style>
+
+<div class="edit-container">
+    <h2 style=" font-size: 25px; padding-top: 10px; color: rgb(5, 16, 54); text-align: center; font-family: Oswald;">
+        Booking Records (Admin View)</h2>
+
+    <!-- User Manual / Instructions -->
+    <div style="background: #f9f9f9; border: 1px solid #ddd; padding: 1rem; margin-bottom: 1.5rem; border-radius: 6px;">
+        <h3 style=" font-size: 20px; color: rgb(5, 16, 54); text-align: center; font-family: Oswald;">
+            User Manual / Instructions</h3>
+        <ul style="list-style-type: disc; padding-left: 1.25rem; color: #333; font-size: 16px; line-height: 1.4;">
+            <li><strong>Filter by Booking ID Range:</strong> Enter the starting and ending Booking IDs (inclusive).</li>
+            <li><strong>Filter by Bus ID:</strong> Simply enter the Bus ID.</li>
+            <li><strong>Filter by Bus Name:</strong> Enter the Bus Name exactly (case sensitive, so use correct capital
+                and lowercase letters).</li>
+            <li><strong>Filter by Route:</strong> Enter Source and Destination. Use the suggestions provided to avoid
+                errors.</li>
+            <li><strong>Filter by Username:</strong> Enter the exact username.</li>
+            <li><strong>Export Data:</strong> Export results in CSV, Excel, or PDF formats. Excel is recommended for
+                best compatibility.</li>
+        </ul>
+    </div>
+
+    <form method="get" class="form-row">
+        <label>Filter by:</label>
+        <select style="height:35px" name="filter_by" onchange="handleFilterChange(this.value)">
+            <option value="">-- Select --</option>
+            <option value="booking_id">Booking ID Range</option>
+            <option value="bus_id">Bus ID</option>
+            <option value="bus_name">Bus Name</option>
+            <option value="route">Route</option>
+            <option value="username">Username</option>
+        </select>
+
+        <div id="filter-fields">
+            <!-- Booking ID Range -->
+            <div id="booking-id-fields" style="display:none">
+                <label>Booking ID From:</label>
+                <input type="text" name="booking_id_start" placeholder="Start ID">
+                <label>To:</label>
+                <input type="text" name="booking_id_end" placeholder="End ID">
+            </div>
+
+            <!-- Bus ID -->
+            <input type="text" name="bus_id" placeholder="Enter Bus ID" style="display:none">
+
+            <!-- Bus Name -->
+            <input type="text" name="bus_name" placeholder="Enter Bus Name" style="display:none">
+
+            <!-- Route -->
+            <div id="route-fields" style="display: flex; align-items: center; gap: 1rem;">
+
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 0.25rem;">
+                    <label for="source" style="white-space: nowrap;">Route From:</label>
+                    <div class="input-wrapper" style="width: 200px;">
+                        <div class="input-parent" style="position: relative;">
+                            <input type="text" id="source" name="source" placeholder="Source" autocomplete="off"
+                                style="width: 100%;">
+                            <div id="source-suggestions" class="suggestions-box"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 0.25rem;">
+                    <label for="destination" style="white-space: nowrap;">To:</label>
+                    <div class="input-wrapper" style="width: 200px;">
+                        <div class="input-parent" style="position: relative;">
+                            <input type="text" id="destination" name="destination" placeholder="Destination"
+                                autocomplete="off" style="width: 100%;">
+                            <div id="destination-suggestions" class="suggestions-box"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Username -->
+            <input type="text" name="username" placeholder="Enter Username" style="display:none">
+        </div>
+
+        <label>Date:</label>
+        <input type="date" name="date" style="height: 35px;">
+
+        <button type="submit"
+            style=" width:200px; height:40px; margin: 0 auto; background-color:rgb(5, 16, 54); border-radius: 5px; color:white; border:0px">Search</button>
+    </form>
+
+    <!-- Add Export Buttons -->
+    <div id="extra-bu">
+        <a href="?{{ request.GET.urlencode }}&export=csv"
+            class="btn btn-sm btn-primary">Export CSV</a>
+
+        <a href="?{{ request.GET.urlencode }}&export=excel"
+            class="btn btn-sm btn-success">Export Excel</a>
+
+        <a href="?{{ request.GET.urlencode }}&export=pdf"
+            class="btn btn-sm btn-danger">Export PDF</a>
+    </div>
+
+
+    <table style="margin-top: 2rem; width: 100%; border: 1px solid black; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>STATUS</th>
+                <th>User Name</th>
+                <th>Bus ID</th>
+                <th>Bus Name</th>
+                <th>Route</th>
+                <th>Num of Seats</th>
+                <th>Price per Ticket</th>
+                <th>Total Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td data-label="Booking ID">{{ booking.id }}</td>
+                <td data-label="Status">
+                    {% if booking.status == 'BOOKED' %}
+                    <span style="color: green;">{{ booking.status }}</span>
+                    {% elif booking.status == 'CANCELLED' %}
+                    <span style="color: red;">{{ booking.status }}</span>
+                    {% else %}
+                    {{ booking.status }}
+                    {% endif %}
+                </td>
+                <td data-label="User Name">{{ booking.name }}</td>
+                <td data-label="Bus ID">{{ booking.busid }}</td>
+                <td data-label="Bus Name">{{ booking.bus_name }}</td>
+                <td data-label="Route">{{ booking.source }} → {{ booking.dest }}</td>
+                <td data-label="Num of Seats">{{ booking.nos }}</td>
+                <td data-label="Price per Ticket">{{ booking.price|floatformat:2 }}</td>
+                <td data-label="Total Price">{{ booking.total_price|floatformat:2 }}</td>
+                <td data-label="Date">{{ booking.date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">No records found.</td>
+            </tr>
+            {% endfor %}
+            {% if bookings %}
+            <tr>
+                <td colspan="7" style="text-align:right; font-weight:bold;">Total Amount:</td>
+                <td colspan="2" style="font-weight:bold;">{{ total_amount|floatformat:2 }}</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+
+
+</div>
+
+<script>
+    function handleFilterChange(value) {
+        // Hide all filter inputs first
+        document.querySelectorAll('#filter-fields > *').forEach(el => el.style.display = 'none');
+
+        if (value === 'booking_id') {
+            document.getElementById('booking-id-fields').style.display = 'block';
+        } else if (value === 'bus_id') {
+            document.querySelector('[name="bus_id"]').style.display = 'block';
+        } else if (value === 'bus_name') {
+            document.querySelector('[name="bus_name"]').style.display = 'block';
+        } else if (value === 'route') {
+            document.getElementById('route-fields').style.display = 'flex';
+        } else if (value === 'username') {
+            document.querySelector('[name="username"]').style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const select = document.querySelector('select[name="filter_by"]');
+        const currentValue = select.value;
+
+        if (currentValue) {
+            // If there's a filter selected (not empty), show corresponding inputs
+            handleFilterChange(currentValue);
+        } else {
+            // If no filter selected (default), hide all filter inputs
+            document.querySelectorAll('#filter-fields > *').forEach(el => el.style.display = 'none');
+        }
+
+        // On user changing dropdown, update inputs accordingly
+        select.addEventListener('change', () => {
+            handleFilterChange(select.value);
+        });
+    });
+
+
+
+
+    function attachAutocomplete(inputId, suggestionsId, field) {
+        const input = document.getElementById(inputId);
+        const suggestionsBox = document.getElementById(suggestionsId);
+
+        input.addEventListener('input', function () {
+            const query = input.value;
+            const otherField = field === 'source' ? 'destination' : 'source';
+            const otherValue = document.getElementById(otherField)?.value || '';
+
+            fetch(`/suggestions/?term=${query}&field=${field}&exclude=${encodeURIComponent(otherValue)}`)
+                .then(response => response.json())
+                .then(data => {
+                    suggestionsBox.innerHTML = '';
+                    data.forEach(item => {
+                        const div = document.createElement('div');
+                        div.classList.add('suggestion-item');
+                        div.textContent = item;
+                        div.addEventListener('click', () => {
+                            input.value = item;
+                            suggestionsBox.innerHTML = '';
+                        });
+                        suggestionsBox.appendChild(div);
+                    });
+                });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!suggestionsBox.contains(e.target) && e.target !== input) {
+                suggestionsBox.innerHTML = '';
+            }
+        });
+    }
+
+    // Attach on page load
+    attachAutocomplete('source', 'source-suggestions', 'source');
+    attachAutocomplete('destination', 'destination-suggestions', 'destination');
+</script>
+
+{% endblock %}

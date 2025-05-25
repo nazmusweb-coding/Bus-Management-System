@@ -1,0 +1,170 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<style>
+  .edit-container {
+    max-width: 800px;
+    margin: 80px auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .edit-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #1f41ba;
+    font-weight: bold;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-row {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 1.5rem;
+  }
+
+  .form-row label {
+    width: 100px;
+    font-weight: 600;
+    margin-top: 0.4rem;
+  }
+
+  .form-row input,
+  .form-row textarea {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .button-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  button[type="submit"],
+  .button-link {
+    background-color: #1f41ba;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    min-width: 100px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .button-link:hover,
+  button[type="submit"]:hover {
+    background-color: #17318c;
+    color: white;
+  }
+
+  #preview-box {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-left: 4px solid #1f41ba;
+    border-radius: 6px;
+    text-decoration: none !important;
+  }
+
+  #preview-box h4 {
+    color: #1f41ba;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  #preview-box p {
+    color: gray;
+    font-size: 16px;
+  }
+
+  #preview-image {
+    max-width: 200px;
+    margin-top: 10px;
+    border-radius: 4px;
+  }
+
+  #starti {
+    margin-bottom: 20px;
+    color: rgb(5, 16, 54);
+    text-align: center;
+    font-family: Oswald;
+    font-size: 25px;
+  }
+
+  body {
+    font-family: 'Fira Sans';
+  }
+</style>
+
+<div class="edit-container">
+  <h2 id="starti">{% if gallery %}Edit{% else %}Create{% endif %} Travel Gallery</h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-row">
+      <label for="id_title">Title:</label>
+      {{ form.title }}
+    </div>
+
+    <div class="form-row">
+      <label for="id_description">Description:</label>
+      {{ form.description }}
+    </div>
+
+    <div class="form-row">
+      <label for="id_photo">Photo:</label>
+      {{ form.photo }}
+    </div>
+
+    <div class="button-row">
+      <button type="submit">Save</button>
+      <a href="{% url 'manage_gallery' %}" class="button-link">Cancel</a>
+    </div>
+  </form>
+
+  <h3 style="margin-top: 40px;">Live Preview</h3>
+  <div id="preview-box">
+    <h4 id="preview-title"></h4>
+    <p id="preview-description"></p>
+    <img id="preview-image" src="" alt="Preview Image" />
+  </div>
+</div>
+
+<script>
+  const titleInput = document.getElementById("id_title");
+  const descInput = document.getElementById("id_description");
+  const photoInput = document.getElementById("id_photo");
+
+  titleInput.addEventListener("input", () => {
+    document.getElementById("preview-title").innerText = titleInput.value;
+  });
+
+  descInput.addEventListener("input", () => {
+    document.getElementById("preview-description").innerText = descInput.value;
+  });
+
+  photoInput.addEventListener("change", (event) => {
+    const [file] = event.target.files;
+    if (file) {
+      document.getElementById("preview-image").src = URL.createObjectURL(file);
+    }
+  });
+</script>
+{% endblock %}

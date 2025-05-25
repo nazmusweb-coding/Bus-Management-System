@@ -1,0 +1,98 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<style>
+    .refund-container {
+        max-width: 800px;
+        margin: auto;
+        padding: 60px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100vh;
+        text-align: justify;
+    }
+
+    .refund-container h2 {
+        text-align: center;
+        font-family: 'Oswald';
+        color: #051036;
+        margin-bottom: 20px;
+    }
+
+    .refund-container p {
+        font-size: 16px;
+        line-height: 1.6;
+        font-family: 'Fira Sans';
+        color: #333;
+        margin-bottom: 15px;
+        text-align: justify;
+    }
+
+    .refund-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-family: 'Fira Sans';
+        font-size: 15px;
+    }
+
+    .refund-table th, .refund-table td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .refund-table th {
+        background-color: #f5f5f5;
+        color: #051036;
+    }
+
+    @media (max-width: 768px) {
+        .refund-container {
+            margin-top: 60px;
+        }
+    }
+</style>
+
+<div class="refund-container">
+    <h2>Refund Policy</h2>
+    <p>We are committed to providing our customers with a smooth and transparent refund process. If you cancel a ticket, the refund will be processed within <strong>7–10 working days</strong> to your original payment method.</p>
+
+    <p>Please note that cancellation charges will apply depending on the time of cancellation relative to the departure schedule. The following table outlines the applicable charges:</p>
+
+    <table class="refund-table">
+        <thead>
+            <tr>
+                <th>Time Before Departure</th>
+                <th>Refund Percentage</th>
+                <th>Cancellation Charge</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>More than 48 hours</td>
+                <td>90%</td>
+                <td>10%</td>
+            </tr>
+            <tr>
+                <td>24–48 hours</td>
+                <td>75%</td>
+                <td>25%</td>
+            </tr>
+            <tr>
+                <td>12–24 hours</td>
+                <td>50%</td>
+                <td>50%</td>
+            </tr>
+            <tr>
+                <td>Less than 12 hours</td>
+                <td>0%</td>
+                <td>100%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Please ensure that you review the schedule before making a booking to avoid cancellation costs. For assistance, contact our support team.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<style>
+    .privacy-container {
+        max-width: 800px;
+        margin: auto;
+        padding: 60px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100vh;
+        text-align: justify;
+    }
+
+    .privacy-container h2 {
+        text-align: center;
+        font-family: 'Oswald';
+        color: #051036;
+        margin-bottom: 20px;
+    }
+
+    .privacy-container p {
+        font-size: 16px;
+        line-height: 1.6;
+        font-family: 'Fira Sans';
+        color: #333;
+        margin-bottom: 15px;
+        text-align: justify;
+    }
+
+    @media (max-width: 768px) {
+        .privacy-container {
+            margin-top: 50px;
+        }
+}
+</style>
+
+<div class="privacy-container">
+    <h2>Privacy Policy</h2>
+    <p>Your privacy is important to us. This privacy policy explains how we collect, use, and protect your personal information when you use our website and services.</p>
+
+    <p><strong>Information Collection:</strong> We collect personal data such as your name, email address, and booking details when you interact with our services.</p>
+
+    <p><strong>Use of Information:</strong> Your data is used to manage bookings, improve our services, and send important updates. We do not sell or share your data with third parties without your consent.</p>
+
+    <p><strong>Data Security:</strong> We implement security measures to protect your data against unauthorized access or disclosure.</p>
+
+    <p><strong>Cookies:</strong> Our website uses cookies to enhance user experience. You can manage cookie preferences in your browser settings.</p>
+
+    <p><strong>Contact:</strong> For any privacy-related questions, please contact us at: <strong>info@elitetravel.com</strong>.</p>
+
+    <p>By using our website, you agree to this privacy policy.</p>
+</div>
+{% endblock %}

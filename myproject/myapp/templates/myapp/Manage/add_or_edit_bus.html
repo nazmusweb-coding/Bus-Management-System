@@ -1,0 +1,252 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+
+<div class="page-center-wrapper">
+    <div class="form-wrapper">
+        <div class="form-header">
+            <h2>{{ title }}</h2>
+            <a href="{% url 'admin_bus_list' %}" class="back-link">← Back to Bus List</a>
+        </div>
+
+        <form method="post" class="bus-form">
+            {% csrf_token %}
+
+            <label for="{{ form.bus_name.id_for_label }}">Bus Name:</label>
+            {{ form.bus_name }}
+
+            <label for="{{ form.source.id_for_label }}">Source:</label>
+            {{ form.source }}
+            <div id="source-suggestions" class="suggestions-box"></div>
+
+            <label for="{{ form.dest.id_for_label }}">Destination:</label>
+            {{ form.dest }}
+            <div id="destination-suggestions" class="suggestions-box"></div>
+
+
+            <label for="{{ form.nos.id_for_label }}">Number of Seats:</label>
+            {{ form.nos }}
+
+            <label for="{{ form.rem.id_for_label }}">Remaining Seats:</label>
+            {{ form.rem }}
+
+            <label for="{{ form.price.id_for_label }}">Price:</label>
+            {{ form.price }}
+
+            <label for="{{ form.date.id_for_label }}">Date:</label>
+            {{ form.date }}
+
+            <label for="{{ form.time.id_for_label }}">Time:</label>
+            {{ form.time }}
+            <datalist id="suggested-times">
+                <option value="06:00 AM">
+                <option value="07:00 AM">
+                <option value="08:00 AM">
+                <option value="09:00 AM">
+                <option value="10:00 AM">
+                <option value="11:00 AM">
+                <option value="12:00 PM">
+                <option value="01:00 PM">
+                <option value="01:30 PM">
+                <option value="02:00 PM">
+                <option value="02:30 PM">
+                <option value="03:00 PM">
+                <option value="05:00 PM">
+                <option value="06:00 PM">
+                <option value="07:00 PM">
+                <option value="07:30 PM">
+                <option value="08:00 PM">
+                <option value="08:30 PM">
+                <option value="09:00 PM">
+                <option value="10:00 PM">
+                <option value="11:00 PM">
+                <option value="12:00 AM">
+                <option value="01:00 AM">
+                <option value="02:00 AM">
+            </datalist>
+            <button type="submit" class="submit-btn">💾 Save</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Full viewport height wrapper + flex centering */
+    .page-center-wrapper {
+        display: flex;
+        justify-content: center;
+        /* horizontal center */
+        align-items: center;
+        /* vertical center */
+        min-height: 110vh;
+        padding: 20px;
+        /* optional so edges don’t stick */
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Fira Sans';
+    }
+
+    .form-wrapper {
+        position: relative;
+        max-width: 600px;
+        width: 100%;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.185);
+        box-sizing: border-box;
+        margin: 0;
+        /* remove old margins */
+    }
+
+    input[type="date"],
+    input[type="time"] {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .form-header h2 {
+        margin: 0;
+        color: rgb(5, 16, 54);
+        font-family: "Oswald";
+
+
+    }
+
+    .back-link {
+        text-decoration: none !important;
+        color: #054cbe;
+        font-weight: bold;
+    }
+
+    .back-link:hover {
+        color: #4285f4;
+    }
+
+    .bus-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bus-form p {
+        margin-bottom: 15px;
+    }
+
+    .bus-form label {
+        font-weight: 500;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        display: block;
+        color: #444;
+    }
+
+    .bus-form input,
+    .bus-form select,
+    .bus-form textarea {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .submit-btn {
+        background-color: rgb(5, 16, 54);
+        color: white;
+        padding: 10px 20px;
+        font-size: 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+        background-color: rgb(20, 52, 166);
+    }
+
+    .suggestions-box {
+        border: 1px solid #ccc;
+        border-top: none;
+        max-height: 150px;
+        overflow-y: auto;
+        background: white;
+        position: relative;
+        z-index: 1000;
+        width: 100%;
+    }
+
+    .suggestion-item {
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .suggestion-item:hover {
+        background-color: #eee;
+    }
+
+
+    @media (max-width: 768px) {
+        .page-center-wrapper {
+            padding: 10px;
+        }
+
+        .submit-btn,
+        .back-link {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>
+
+<script>
+    function attachAutocomplete(inputId, suggestionsId, field) {
+        const input = document.getElementById(inputId);
+        const suggestionsBox = document.getElementById(suggestionsId);
+
+        input.addEventListener('input', function () {
+            const query = input.value;
+            const otherField = field === 'source' ? 'destination' : 'source';
+            const otherValue = document.getElementById(otherField).value;
+
+            fetch(`/suggestions/?term=${query}&field=${field}&exclude=${encodeURIComponent(otherValue)}`)
+                .then(response => response.json())
+                .then(data => {
+                    suggestionsBox.innerHTML = '';
+                    data.forEach(item => {
+                        const div = document.createElement('div');
+                        div.classList.add('suggestion-item');
+                        div.textContent = item;
+                        div.addEventListener('click', () => {
+                            input.value = item;
+                            suggestionsBox.innerHTML = '';
+                        });
+                        suggestionsBox.appendChild(div);
+                    });
+                });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!suggestionsBox.contains(e.target) && e.target !== input) {
+                suggestionsBox.innerHTML = '';
+            }
+        });
+    }
+
+    attachAutocomplete('source', 'source-suggestions', 'source');
+    attachAutocomplete('destination', 'destination-suggestions', 'destination');
+</script>
+
+{% endblock %}

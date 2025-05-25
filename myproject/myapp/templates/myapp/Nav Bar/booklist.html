@@ -1,0 +1,387 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<div class="content-wrapper">
+    {% if msg %}
+    <h3 style="margin-top: 20px; color: #333;">{{ msg }}</h3>
+    {% endif %}
+    <h2 style="margin-bottom: 0px; padding-top: 30px; color: rgb(5, 16, 54); text-align: center; font-family: Oswald;">
+        YOUR BOOKINGS</h2>
+</div>
+
+<div style="display: flex; position: relative;">
+    <!-- 🚌 Bus List Table -->
+    <div class="bus-container" style="min-height:100vh">
+        <!-- Responsive Bus List -->
+        <div class="bus-list w-100">
+            <!-- Desktop Table -->
+            <table class="table table-striped bus-table w-100">
+                <thead style="background-color: rgb(5, 16, 54); color: white; font-family: 'Fira Sans';">
+                    <tr>
+                        <th>BOOKING ID</th>
+                        <th>BUS NAME</th>
+                        <th>SOURCE</th>
+                        <th>DESTINATION</th>
+                        <th>NUM OF SEATS</th>
+                        <th>SEATS</th>
+                        <th>PRICE</th>
+                        <th>TOTAL</th>
+                        <th>DATE</th>
+                        <th>TIME</th>
+                        <th>STATUS</th>
+                        <th>INVOICE</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody style="font-family: 'Fira Sans';">
+                    {% for item in booking_data %}
+                    {% with booking=item.booking seat_numbers=item.seat_numbers cost=item.total_cost %}
+                    <tr>
+                        <td>{{ booking.id }}</td>
+                        <td>{{ booking.bus_name }}</td>
+                        <td>{{ booking.source }}</td>
+                        <td>{{ booking.dest }}</td>
+                        <td>{{ seat_numbers|length }}</td>
+                        <td>
+                            {% if seat_numbers|length > 0 %}
+                            {{ seat_numbers|join:", " }}
+                            {% else %}
+
+                            {% endif %}
+                        </td>
+                        <td>{{ booking.price }}</td>
+                        <td>{{ cost }}</td>
+                        <td>{{ booking.date }}</td>
+                        <td>{{ booking.time }}</td>
+                        <td>{{ booking.get_status_display }}</td>
+                        <td>
+                            {% if booking.status != "CANCELLED" %}
+                            <a href="{% url 'download_invoice' booking.id %}" target="_blank"
+                                class="download-btn">Download</a>
+                            {% else %}
+                            <span class="download-disabled">Download</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form action="{% url 'cancellings' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="bus_id" value="{{ booking.id }}">
+                                {% if booking.status != "CANCELLED" %}
+                                <button type="submit" class="cancel-btn">Cancel</button>
+                                {% else %}
+                                <button type="button" class="cancelled-btn" disabled>Cancelled</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endwith %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Mobile Cards -->
+            <div class="bus-cards">
+                {% for item in booking_data %}
+                {% with booking=item.booking seat_numbers=item.seat_numbers cost=item.total_cost %}
+                <div class="bus-card" style="font-family: 'Fira Sans';">
+                    <p><strong>Booking ID: {{ booking.id }}</strong></p>
+                    <p>Bus Name: {{ booking.bus_name }}</p>
+                    <p>Route: {{ booking.source }} to {{ booking.dest }}</p>
+                    <p>Number of Seats: {{ seat_numbers|length }}</p>
+                    {% if seat_numbers|length > 0 %}
+                    <p>Seats: {{ seat_numbers|join:", " }}</p>
+                    {% else %}
+
+                    {% endif %}
+                    <p>Price: {{ booking.price }}</p>
+                    <p>Total Price: {{ cost }}</p>
+                    <p>Date: {{ booking.date }}</p>
+                    <p>Time: {{ booking.time }}</p>
+                    <p>Status: {{ booking.get_status_display }}</p>
+                    <div class="button-group">
+                        {% if booking.status != "CANCELLED" %}
+                        <a href="{% url 'download_invoice' booking.id %}" target="_blank" class="download-btn">Download
+                            Invoice</a>
+                        {% else %}
+                        <span class="download-disabled">Download Invoice</span>
+                        {% endif %}
+                        <form action="{% url 'cancellings' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="bus_id" value="{{ booking.id }}">
+                            {% if booking.status != "CANCELLED" %}
+                            <button type="submit" class="cancel-btn">Cancel</button>
+                            {% else %}
+                            <button type="button" class="cancelled-btn" disabled>Cancelled</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bus-table {
+        margin-bottom: 30px;
+        border-radius: 8px;
+        overflow: hidden;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .bus-table th,
+    .bus-table td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 8px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    /* Optional: Give specific widths to each column */
+    .bus-table th:nth-child(1),
+    .bus-table td:nth-child(1) {
+        width: 70px;
+    }
+
+    /* Booking ID */
+
+    .bus-table th:nth-child(2),
+    .bus-table td:nth-child(2) {
+        width: 130px;
+    }
+
+    /* Bus Name */
+    .bus-table th:nth-child(3),
+    .bus-table td:nth-child(3) {
+        width: 100px;
+    }
+
+    /* Source */
+    .bus-table th:nth-child(4),
+    .bus-table td:nth-child(4) {
+        width: 100px;
+    }
+
+    /* Destination */
+    .bus-table th:nth-child(5),
+    .bus-table td:nth-child(5) {
+        width: 80px;
+    }
+
+    /* Num of Seats */
+    .bus-table th:nth-child(6),
+    .bus-table td:nth-child(6) {
+        width: 100px;
+    }
+
+    /* Seats */
+    .bus-table th:nth-child(7),
+    .bus-table td:nth-child(7) {
+        width: 60px;
+    }
+
+    /* Price */
+    .bus-table th:nth-child(8),
+    .bus-table td:nth-child(8) {
+        width: 80px;
+    }
+
+    /* Total */
+    .bus-table th:nth-child(9),
+    .bus-table td:nth-child(9) {
+        width: 90px;
+    }
+
+    /* Date */
+    .bus-table th:nth-child(10),
+    .bus-table td:nth-child(10) {
+        width: 70px;
+    }
+
+    /* Time */
+    .bus-table th:nth-child(11),
+    .bus-table td:nth-child(11) {
+        width: 90px;
+    }
+
+    /* Status */
+    .bus-table th:nth-child(12),
+    .bus-table td:nth-child(12) {
+        width: 100px;
+    }
+
+    /* Invoice */
+    .bus-table th:nth-child(13),
+    .bus-table td:nth-child(13) {
+        width: 90px;
+    }
+
+    /* Action */
+
+    .content-wrapper {
+        padding: 0 20px 0px 20px;
+        margin-top: 70px;
+        background-color: #f8f8f8;
+    }
+
+    .bus-cards {
+        display: none;
+    }
+
+    .bus-card {
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .bus-card p {
+        margin: 5px 0;
+    }
+
+    .bus-container {
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .bus-list {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .bus-table {
+        margin-bottom: 30px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .download-btn,
+    .cancel-btn,
+    .cancelled-btn,
+    .download-disabled {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: none;
+        font-size: 14px;
+        display: inline-block;
+        text-align: center;
+        transition: all 0.4s ease;
+    }
+
+    .download-btn {
+        background-color: #4285f4;
+        color: white;
+        cursor: pointer;
+        text-decoration: none !important;
+    }
+
+    .download-btn:hover {
+        background-color: #3367d6;
+        color: white;
+    }
+
+    .download-disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        opacity: 0.6;
+        filter: blur(0.2px);
+    }
+
+    .cancel-btn {
+        background-color: #e53935;
+        color: white;
+        cursor: pointer;
+    }
+
+    .cancel-btn:hover {
+        background-color: #c62828;
+    }
+
+    .cancelled-btn {
+        background-color: #ccc !important;
+        color: #666 !important;
+        cursor: not-allowed;
+        opacity: 0.6;
+        filter: blur(0.2px);
+    }
+
+    .button-group form {
+        margin-bottom: 8px;
+    }
+
+    @media (max-width: 1210px) {
+        .bus-table {
+            display: none;
+        }
+
+        .bus-list {
+            display: flex;
+            justify-content: center;
+        }
+
+        .bus-cards {
+            display: block;
+            padding: 0 10px;
+            width: 65%;
+        }
+
+        .button-group>*:not(:last-child) {
+            margin-bottom: 8px;
+            /* 👈 Adds space between stacked elements */
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .bus-table {
+            display: none;
+        }
+
+        .bus-list {
+            display: flex;
+            justify-content: center;
+        }
+
+        .bus-cards {
+            display: block;
+            padding: 0 10px;
+            width: 75%;
+        }
+
+        .button-group>*:not(:last-child) {
+            margin-bottom: 8px;
+            /* 👈 Adds space between stacked elements */
+        }
+    }
+
+    @media (max-width: 768px) {
+        .bus-table {
+            display: none;
+        }
+
+
+
+        .bus-cards {
+            display: block;
+            padding: 0 10px;
+            width: 85%;
+        }
+
+        .button-group>*:not(:last-child) {
+            margin-bottom: 8px;
+            /* 👈 Adds space between stacked elements */
+        }
+    }
+</style>
+{% endblock %}

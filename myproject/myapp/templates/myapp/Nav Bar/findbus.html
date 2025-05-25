@@ -1,0 +1,326 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&amp;family=Oswald:wght@200..700&amp;display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap" rel="stylesheet">
+    <style>
+        #back_gr {
+            width: 100%;
+            height: 100vh;
+        }
+
+        #img-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #titleh {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            top: 100px;
+            width: 500px;
+            margin: 0px auto;
+        }
+
+        #titleh h2 {
+            background-color: aliceblue;
+            text-align: center;
+            border-radius: 10px;
+            height: 100px;
+            width: 100%;
+            font-family: "Oswald";
+            color: rgb(5, 16, 54);
+            font-size: 30px;
+            padding: 25px;
+            box-sizing: border-box;
+
+
+
+        }
+
+        .mx-auto {
+            background-color: aliceblue;
+            padding: 50px 0px 0px 0px;
+            border-radius: 10px;
+            width: 90%;
+            box-sizing: content-box;
+
+        }
+
+        .row {
+            display: block;
+        }
+
+        .abc {
+            display: flex;
+            overflow: visible;
+            padding: 0px 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-group {
+            display: block;
+        }
+
+        .col-form-label {
+            display: block;
+            padding-left: 20px;
+            color: rgb(5, 16, 54);
+            font-size: 18px;
+            font-family: 'Fira Sans';
+        }
+
+        .form-control {
+            width: 290px;
+            box-sizing: border-box;
+            margin: 0px 20px !important;
+            height: 60px;
+        }
+
+        .csr {
+            text-align: center;
+            margin-top: 10px;
+            color: rgb(5, 16, 54);
+            font-family: 'Fira Sans';
+        }
+
+        .btn-success {
+            color: rgb(255, 255, 255);
+            background-color: rgb(5, 16, 54);
+            border-color: rgb(5, 16, 54);
+            font-family: "Oswald";
+            border: 0px;
+            display: block;
+            width: 300px;
+            margin: 0px auto;
+            transition: all 0.3s ease;
+            height: 60px;
+            position: relative;
+            top: 30px;
+            padding: 0px;
+            font-size: 18px;
+        }
+
+        .btn-success:hover {
+            background-color: rgb(31, 65, 186);
+        }
+
+        .btn-success:active {
+            background-color: rgb(31, 65, 186);
+
+        }
+
+        .csr {
+            text-align: center;
+            color: rgb(208, 0, 0);
+            position: absolute;
+            top: 85%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #bar {
+            width: 200px;
+            height: 2px;
+            color: rgb(5, 16, 54);
+            text-align: center;
+            background-color: rgb(5, 16, 54);
+            margin: 0px auto;
+            margin-bottom: 30px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .input-parent {
+            position: relative;
+        }
+
+        .suggestions-box {
+            position: absolute;
+            top: 100%;
+            left: 10;
+            width: 85%;
+            background-color: white;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 10;
+            box-sizing: border-box;
+        }
+
+        .suggestions-box div {
+            padding: 8px;
+            cursor: pointer;
+            font-family: 'Fira Sans';
+        }
+
+        .suggestions-box div:hover {
+            background-color: #f0f0f0;
+        }
+
+
+        @media (max-width:768px) {
+            #titleh {
+                width: 90%;
+            }
+
+            .csr {
+                top: 95%
+            }
+        }
+
+        @media (max-width:1200px) {
+            .csr {
+                top: 88%
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="back_gr">
+        <img src="static/im3.jpg" id="img-background" />
+    </div>
+    <div class="container">
+        <div class="row">
+            <div id="titleh">
+                <h2>FIND BUS</h2>
+            </div>
+
+            <div class="mx-auto" style="margin-top: 70px">
+                <form action="{% url 'findbus' %}" method="post">
+                    {% csrf_token %}
+                    <div class="abc">
+                        <div class="form-group row">
+                            <label for="example-email-input" class=" col-form-label">From</label>
+                            <div style="position: relative;">
+                                <div class="input-wrapper">
+                                    <input name="source" class="form-control" type="text" id="source"
+                                        autocomplete="off">
+                                    <div id="source-suggestions" class="suggestions-box"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class=" col-form-label">Destination</label>
+                            <div style="position: relative;">
+                                <div class="input-wrapper">
+                                    <input name='destination' class="form-control" type="text" id="destination"
+                                        autocomplete="off">
+                                    <div id="destination-suggestions" class="suggestions-box"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class=" col-form-label">Date</label>
+                            <div>
+                                <input name='date' class="form-control" type="date" id="date-field">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-success">Search bus</button>
+                    </div>
+                    <p class="csr">{{error}}</p>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function attachAutocomplete(inputId, suggestionsId, field) {
+            const input = document.getElementById(inputId);
+            const suggestionsBox = document.getElementById(suggestionsId);
+
+            input.addEventListener('input', function () {
+                const query = input.value;
+                const otherField = field === 'source' ? 'destination' : 'source';
+                const otherValue = document.getElementById(otherField).value;
+
+                fetch(`/suggestions/?term=${query}&field=${field}&exclude=${encodeURIComponent(otherValue)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        suggestionsBox.innerHTML = '';
+                        data.forEach(item => {
+                            const div = document.createElement('div');
+                            div.classList.add('suggestion-item');
+                            div.textContent = item;
+                            div.addEventListener('click', () => {
+                                input.value = item;
+                                suggestionsBox.innerHTML = '';
+                            });
+                            suggestionsBox.appendChild(div);
+                        });
+                    });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!suggestionsBox.contains(e.target) && e.target !== input) {
+                    suggestionsBox.innerHTML = '';
+                }
+            });
+        }
+
+        attachAutocomplete('source', 'source-suggestions', 'source');
+        attachAutocomplete('destination', 'destination-suggestions', 'destination');
+
+        // Set today's date as min for the date field
+        const dateInput = document.getElementById('date-field');
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const minDate = `${yyyy}-${mm}-${dd}`;
+        dateInput.min = minDate;
+
+    </script>
+
+
+</body>
+
+</html>
+
+{% endblock %}

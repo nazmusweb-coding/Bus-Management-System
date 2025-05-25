@@ -1,61 +1,514 @@
 {% extends 'myapp/base.html' %}
 {% block content %}
-<h3>{{msg}}</h3>
-<h2>List of buses</h2>
-<table class="table table-striped" >
-    <thead style="background-color: blue;color: white;">
-    <td>ID</td>
-    <td>NAME</td>
-    <td>SOURCE</td>
-    <td>DESTINATION</td>
-    <td>NUM OF SEATS</td>
-    <td>NUM OF SEATS REM</td>
-    <td>PRICE</td>
-    <td>DATE</td>
-    <td>TIME</td>
+<div class="content-wrapper">
+    {% if msg %}
+    <h3 style="margin-top: 20px; color: #333;">{{ msg }}</h3>
+    {% endif %}
+    <h2 style="margin-bottom: 0px; padding-top: 30px; color: rgb(5, 16, 54); text-align: center; font-family: Oswald;">
+        LIST OF BUSES</h2>
+</div>
 
-    </thead>
+<div style="display: flex; position: relative;">
+    <!-- 🚌 Bus List Table -->
+    <div class="bus-container">
+        <!-- Responsive Bus List -->
+        <div class="bus-list w-100">
+            <!-- Desktop Table -->
+            <table class="table table-striped bus-table w-100">
+                <thead style="background-color: rgb(2, 2, 63); color: white; font-family: 'Fira Sans';">
+                    <tr>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>SOURCE</th>
+                        <th>DEST</th>
+                        <th>SEATS</th>
+                        <th>LEFT</th>
+                        <th>PRICE</th>
+                        <th>DATE</th>
+                        <th>TIME</th>
+                        <th>CHOOSE</th>
+                    </tr>
+                </thead>
+                <tbody style="font-family: 'Fira Sans';">
+                    {% for bus in bus_list %}
+                    <tr>
+                        <td>{{ bus.id }}</td>
+                        <td>{{ bus.bus_name }}</td>
+                        <td>{{ bus.source }}</td>
+                        <td>{{ bus.dest }}</td>
+                        <td>{{ bus.nos }}</td>
+                        <td>{{ bus.rem }}</td>
+                        <td>{{ bus.price }}</td>
+                        <td>{{ bus.date }}</td>
+                        <td>{{ bus.time }}</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary"
+                                onclick="openModal('{{ bus.id }}')">Select</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-    {% for row in bus_list %}
-    <tr>
-        <td>{{row.id }}</td>
-        <td>{{row.bus_name}}</td>
-        <td>{{row.source}}</td>
-        <td>{{row.dest}}</td>
-        <td>{{row.nos}}</td>
-        <td>{{row.rem}}</td>
-        <td>{{row.price}}</td>
-        <td>{{row.date}}</td>
-        <td>{{row.time}}</td>
-
-
-    </tr>
-    {% endfor %}
-</table>
-<form action="{% url 'bookings' %}" method="post">
-    <h3>Choose bus to book</h3>
-    {% csrf_token %}
-    <div class="col-auto">
-        <label for="example-email-input" class="col-2 col-form-label">Bus ID</label>
-        <div class="col-5">
-            <input name='bus_id' class="form-control" type="number" id="example-email-input">
+            <!-- Mobile Cards -->
+            <div class="bus-cards">
+                {% for bus in bus_list %}
+                <div class="bus-card">
+                    <p id="bus_name"><strong>{{ bus.bus_name }}</strong></p>
+                    <p>Bus id: {{ bus.id }} </p>
+                    <p>{{ bus.source }} to {{ bus.dest }}</p>
+                    <p>Seats: {{ bus.nos }}</p>
+                    <p>Left: {{ bus.rem }}</p>
+                    <p>Price: {{ bus.price }}</p>
+                    <p>Date: {{ bus.date }}</p>
+                    <p>Time: {{ bus.time }}</p>
+                    <button type="button" class="btn btn-primary w-100"
+                        onclick="openModal('{{ bus.id }}')">Select</button>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-    <div class="col=auto">
-        <label for="example-email-input" class="col-2 col-form-label">Number of seats</label>
-        <div class="col-5">
-            <input name='no_seats' class="form-control" type="number">
+    <!-- 🔳 Modal Overlay -->
+    <div id="modal-overlay" style="display:none;"></div>
+
+    <!-- 🎟 Right Side Modal -->
+    <div id="booking-modal" class="modal-hidden">
+        <div id="booking-panel">
+            <button onclick="closeModal()" class="close-button">&times;</button>
+            <!-- Your existing form starts here -->
+            <form action="{% url 'bookings' %}" method="POST">
+                {% csrf_token %}
+                <h4
+                    style="margin-bottom: 0px; padding-top: 30px; color: rgb(5, 16, 54); text-align: center; font-family: Oswald; margin-bottom:20px;">
+                    SELECT BUS & SEATS</h4>
+                <div class="form-group">
+                    <label STYLE="color: rgb(5, 16, 54); font-family: 'Fira Sans';">Bus ID:</label>
+                    <input type="number" name="bus_id" class="form-control" value="{{ selected_bus_id }}" readonly
+                        required>
+                    <input type="hidden" name="date" value="{{ selected_date }}">
+                </div>
+
+                <!-- Driver Label -->
+                <div class="driver-label" style="font-family: Oswald;">Driver</div>
+
+                <!-- Seat Map -->
+                <div class="seat-map">
+                    {% for row in seat_rows %}
+                    <div class="seat-row">
+                        <!-- Left 2 seats -->
+                        {% for seat in row|slice:":2" %}
+                        {% if seat %}
+                        <label class="seat">
+                            <input type="checkbox" name="seats" value="{{ seat }}" {% if seat in booked_seats %}
+                                disabled {% endif %}>
+                            <span {% if seat in booked_seats %} class="booked" {% endif %}>{{ seat }}</span>
+                        </label>
+                        {% endif %}
+                        {% endfor %}
+
+                        <div class="aisle-gap"></div>
+
+                        <!-- Right 2 seats -->
+                        {% for seat in row|slice:"2:" %}
+                        {% if seat %}
+                        <label class="seat">
+                            <input type="checkbox" name="seats" value="{{ seat }}" id="seat-{{ seat }}" {% if seat in
+                                booked_seats %} disabled {% endif %}>
+                            <span {% if seat in booked_seats %} class="booked" {% endif %}>{{ seat }}</span>
+
+                        </label>
+                        <!--  end if removed from here -->
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+
+                <!-- Legend -->
+                <div class="legend mt-4" style="font-family: 'Fira Sans';">
+                    <strong>Legend:</strong>
+                    <div class="legend-item"><span class="seat-box available"></span> Available</div>
+                    <div class="legend-item"><span class="seat-box selected"></span> Selected</div>
+                    <div class="legend-item"><span class="seat-box booked"></span> Booked</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">Book Selected Seats</button>
+                {% if error %}
+                <div class="alert alert-danger mt-2">{{ error }}</div>
+                {% endif %}
+            </form>
         </div>
     </div>
-    <br>
-    <br>
-    <div class="pull-right">
-        <button type="submit" class="btn btn-success float-left">Book bus</button>
-    </div>
 
 
-    {{error}}
+</div>
 
-</form>
+<style>
+    .btn {
+        color: rgb(255, 255, 255);
+        background-color: rgb(5, 16, 54);
+        border-color: rgb(5, 16, 54);
+        font-family: "Oswald";
+        width: 60px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: rgb(31, 65, 186);
+    }
+
+    .btn:active {
+        background-color: rgb(31, 65, 186);
+
+    }
+
+    #booking-panel {
+        width: 35%;
+        height: 100vh;
+        position: fixed;
+        top: 65px;
+        right: 0;
+        background-color: #f4f4f4;
+        border-left: 3px solid rgb(5, 16, 54);
+        padding: 20px;
+        overflow-y: auto;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content-wrapper {
+        padding: 0 20px 0px 20px;
+        margin-top: 70px;
+        /* adjust this to match your navbar height */
+        background-color: #f8f8f8;
+        /* test only */
+    }
+
+
+    .driver-label {
+        text-align: center;
+        font-weight: bold;
+        background-color: #002244;
+        color: white;
+        padding: 5px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+    }
+
+    .seat-map {
+        margin-top: 10px;
+    }
+
+    .seat-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    .seat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 5px;
+    }
+
+    .aisle-gap {
+        width: 40px;
+        height: 1px;
+    }
+
+    .seat input[type="checkbox"] {
+        display: none;
+    }
+
+    .seat span {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgb(5, 16, 54);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        background-color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .seat input[type="checkbox"]:checked+span {
+        background-color: rgb(5, 16, 54);
+        color: white;
+    }
+
+    .seat span.booked {
+        background-color: #888;
+        color: #eee;
+        cursor: not-allowed;
+    }
+
+    .seat input[type="checkbox"]:disabled+span {
+        background-color: #ccc;
+        color: #fff;
+        cursor: not-allowed;
+    }
+
+    .legend {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+    }
+
+    .seat-box {
+        width: 20px;
+        height: 20px;
+        border-radius: 3px;
+        margin-right: 10px;
+        display: inline-block;
+    }
+
+    .seat-box.available {
+        background-color: #fff;
+        border: 1px solid rgb(5, 16, 54);
+    }
+
+    .seat-box.selected {
+        background-color: rgb(5, 16, 54);
+    }
+
+    .seat-box.booked {
+        background-color: #888;
+    }
+
+    /* Hide mobile cards by default */
+    .bus-cards {
+        display: none;
+    }
+
+    /* Card styling */
+    .bus-card {
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .bus-card p {
+        margin: 5px 0;
+        font-family: 'Fira Sans';
+    }
+
+    .bus-card p strong {
+        font-family: "Oswald";
+        font-size: 24px;
+    }
+
+    #bus_name {
+        text-align: center;
+    }
+
+    /* ✅ Bus Container adds spacing from screen edges */
+    .bus-container {
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 100vh;
+    }
+
+    .bus-list {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .bus-table {
+        margin-bottom: 30px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    #modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 99;
+    }
+
+    #booking-modal {
+        position: fixed;
+        top: 0;
+        right: 0;
+        /* ✅ Ensure it's docked to the right */
+        height: 100vh;
+        overflow: hidden;
+        z-index: 100;
+        transition: width 0.3s ease;
+        display: flex;
+        /* ✅ Make it flex to help child fill */
+        justify-content: flex-end;
+        /* ✅ Push panel to right */
+    }
+
+    #booking-modal.modal-visible {
+        width: 80%;
+    }
+
+    #booking-modal.modal-hidden {
+        width: 0;
+    }
+
+    /* Make booking panel take full space of modal */
+    #booking-panel {
+        top: 0;
+        height: 100vh;
+        background-color: #f4f4f4;
+        padding: 20px;
+        overflow-y: auto;
+        box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+    }
+
+    /* Close button */
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn.btn-sm.btn-primary {
+        cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .bus-table {
+            display: none;
+        }
+
+        .bus-cards {
+            display: block;
+            padding: 0 10px;
+        }
+
+
+        #booking-modal.modal-visible {
+            width: 100% !important;
+            /* Full screen on small devices */
+        }
+
+        #booking-panel {
+            width: 100% !important;
+            /* Panel fills modal */
+            border-left: none;
+            top: 0;
+            /* Reset top spacing if needed */
+        }
+
+        .close-button {
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+        }
+    }
+</style>
+
+
+<script>
+    function openModal(busId) {
+        // Show overlay and modal
+        document.getElementById('modal-overlay').style.display = 'block';
+        document.getElementById('booking-modal').classList.remove('modal-hidden');
+        document.getElementById('booking-modal').classList.add('modal-visible');
+
+        document.querySelector('input[name="bus_id"]').value = busId;
+
+        const date = "{{ selected_date }}";
+
+        fetch(`/api/booked-seats/?bus_id=${busId}&date=${date}`)
+            .then(res => res.json())
+            .then(data => {
+                const seatMapContainer = document.querySelector('.seat-map');
+                seatMapContainer.innerHTML = ''; // Clear old seats
+
+                const seatLabels = data.seat_labels;
+                const bookedSeats = data.booked_seats;
+
+                // Group into rows of 4
+                for (let i = 0; i < seatLabels.length; i += 4) {
+                    const row = seatLabels.slice(i, i + 4);
+
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'seat-row';
+
+                    // Left 2
+                    row.slice(0, 2).forEach(seat => {
+                        if (!seat) return;
+                        rowDiv.appendChild(createSeatElement(seat, bookedSeats));
+                    });
+
+                    // Aisle gap
+                    const gap = document.createElement('div');
+                    gap.className = 'aisle-gap';
+                    rowDiv.appendChild(gap);
+
+                    // Right 2
+                    row.slice(2).forEach(seat => {
+                        if (!seat) return;
+                        rowDiv.appendChild(createSeatElement(seat, bookedSeats));
+                    });
+
+                    seatMapContainer.appendChild(rowDiv);
+                }
+            })
+            .catch(console.error);
+    }
+
+    function createSeatElement(seat, bookedSeats) {
+        const label = document.createElement('label');
+        label.className = 'seat';
+
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.name = 'seats';
+        input.value = seat;
+
+        const span = document.createElement('span');
+        span.textContent = seat;
+
+        if (bookedSeats.includes(seat)) {
+            input.disabled = true;
+            span.classList.add('booked');
+        }
+
+        label.appendChild(input);
+        label.appendChild(span);
+        return label;
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').style.display = 'none';
+        document.getElementById('booking-modal').classList.remove('modal-visible');
+        document.getElementById('booking-modal').classList.add('modal-hidden');
+    }
+</script>
+
+
 
 {% endblock %}

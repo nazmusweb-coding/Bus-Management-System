@@ -1,59 +1,201 @@
 {% extends 'myapp/base.html' %}
 {% block content %}
-<h2>Booking Confirmation</h2>
-<form action="{% url 'home' %}" method="post">
 
-    {% csrf_token %}
-    <h2>Your booking has been confirmed!</h2>
-    <h2>Thank you!</h2>
-    <h3>Bill details</h3>
-    <!-- Button to Open the Modal -->
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
-        Bill details
-    </button>
+<!DOCTYPE html>
+<html lang="en">
 
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&amp;family=Oswald:wght@200..700&amp;display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap" rel="stylesheet">
+    <style>
+        #back_gr {
+            width: 100%;
+            height: 100vh;
+        }
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+        #img-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        #gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(5, 16, 54, 0.508), rgba(5, 16, 54, 0.284));
+            z-index: -1;
+
+        }
+
+        .mainn {
+            width: 500px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: aliceblue;
+            border-radius: 5px;
+            padding: 30px 0px;
+        }
+
+        .mainn h2 {
+            font-family: "Oswald";
+            font-size: 30px;
+            text-align: center;
+            color: rgb(5, 16, 54);
+            padding: 20px 0px;
+            margin: 0px;
+        }
+
+        .mainn p {
+            text-align: center;
+            font-family: 'Fira Sans';
+            font-family: 18px;
+            color: rgb(5, 16, 54);
+            padding: 0px 20px;
+        }
+
+        #bar {
+            width: 100%;
+            height: 2px;
+            color: rgb(5, 16, 54);
+            background-color: rgb(5, 16, 54);
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            width: 200px !important;
+            padding: 5px 10px !important;
+            margin: 10px 10px !important;
+            box-sizing: border-box;
+        }
+
+        #myModal {
+            top: 100px !important;
+            transition: all 0.5s ease;
+        }
+
+        @media (max-width:768px) {
+            .mainn {
+                width: 80%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="back_gr">
+        <img src="static/im3.jpg" id="img-background" />
+        <div id="gradient-overlay"></div>
+    </div>
+
+    <form action="{% url 'home' %}" method="post">
+
+        {% csrf_token %}
+        <div class="mainn">
+            <h2>Your booking has been confirmed!</h2>
+            <div id="bar">
+            </div>
+            <p>Thank you for choosing our service, don't forget to download your ticket, and have a safe and
+                pleasant
+                journey!
+            </p>
+            <div class="buttons">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                    Bill details
+                </button>
+                <a href="{% url 'download_invoice' book.id %}" class="btn btn-info middle" target="_blank">
+                    Download Invoice PDF
+                </a>
+                <a href="{% url 'add_review' book.busid %}" class="btn btn-warning middle">
+                    Add your Review
+                </a>
+
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary">OK</button>
                 </div>
+            </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><b>Bus name:</b> {{book.bus_name}}</li>
-                        <li class="list-group-item"><b>Starting point:</b> {{book.source}}</li>
-                        <li class="list-group-item"><b>Destination point:</b> {{book.dest}}</li>
-                        <li class="list-group-item"><b>Number of seats:</b> {{book.nos}}</li>
-                        <li class="list-group-item"><b>Price:</b> {{book.price}}</li>
-                        <li class="list-group-item"><b>Cost:</b> {{cost}}</li>
-                        <li class="list-group-item"><b>Date:</b> {{book.date}}</li>
-                        <li class="list-group-item"><b>Time:</b> {{book.time}}</li>
-                    </ul>
+        </div>
 
+
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><b>Bus name:</b> {{book.bus_name}}</li>
+                            <li class="list-group-item"><b>Starting point:</b> {{book.source}}</li>
+                            <li class="list-group-item"><b>Destination point:</b> {{book.dest}}</li>
+                            <li class="list-group-item"><b>Number of seats:</b> {{book.nos}}</li>
+                            <li class="list-group-item"><b>Price:</b> {{book.price}}</li>
+                            <li class="list-group-item"><b>Cost:</b> {{cost}}</li>
+                            <li class="list-group-item"><b>Date:</b> {{book.date}}</li>
+                            <li class="list-group-item"><b>Time:</b> {{book.time}}</li>
+                        </ul>
+
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <a href="{% url 'download_invoice' book.id %}" class="btn btn-info mt-3" target="_blank">
+                            Download Invoice PDF
+                        </a>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                    </div>
 
                 </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
-                </div>
-
             </div>
         </div>
-    </div>
-
-    <div class="pull-right">
-        <button type="submit" class="btn btn-primary float-right">OK</button>
-    </div>
 
 
-</form>
 
+
+    </form>
+
+</body>
+
+</html>
 
 {% endblock %}

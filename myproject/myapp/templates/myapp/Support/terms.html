@@ -1,0 +1,54 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<style>
+    .terms-container {
+        max-width: 800px;
+        margin: auto;
+        padding: 60px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100vh;
+        text-align: justify;
+    }
+
+    .terms-container h2 {
+        text-align: center;
+        font-family: 'Oswald';
+        color: #051036;
+        margin-bottom: 20px;
+    }
+
+    .terms-container p {
+        font-size: 16px;
+        line-height: 1.6;
+        font-family: 'Fira Sans';
+        color: #333;
+        margin-bottom: 15px;
+        text-align: justify;
+    }
+
+    @media (max-width: 768px) {
+        .terms-container {
+            margin-top: 90px;
+        }
+    }
+</style>
+
+<div class="terms-container">
+    <h2>Terms and Conditions</h2>
+    <p>Welcome to our website. These terms and conditions outline the rules and regulations for the use of our services.</p>
+
+    <p><strong>1. Acceptance of Terms:</strong> By accessing or using our site, you agree to be bound by these terms and conditions and our privacy policy.</p>
+
+    <p><strong>2. Use of the Site:</strong> You agree to use the website only for lawful purposes. Any use that violates applicable laws or regulations is strictly prohibited.</p>
+
+    <p><strong>3. Intellectual Property:</strong> The content on this site, including text, graphics, logos, and images, is the property of our company and protected by copyright laws.</p>
+
+    <p><strong>4. Limitation of Liability:</strong> We are not liable for any damages arising out of or in connection with your use of this website.</p>
+
+    <p><strong>5. Changes to Terms:</strong> We reserve the right to update or change these terms at any time without prior notice. Continued use of the website constitutes your acceptance of the new terms.</p>
+
+    <p>If you do not agree to any part of these terms and conditions, you should not use our website.</p>
+</div>
+{% endblock %}
