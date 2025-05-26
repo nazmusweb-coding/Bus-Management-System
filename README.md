@@ -1,4 +1,4 @@
-﻿# Bus Management System
+﻿﻿# Bus Management System
 
 A **Bus Management System** built using **Python** and the **Django** web framework. This backend-focused project implements full CRUD functionality with a structured database. The system allows users to book bus tickets, view invoices, check bus availability, and manage bookings, while admins have full control over bus data through the Django admin panel.
 
@@ -86,7 +86,3 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## License
 
 This project is licensed under the MIT License.
-
----
-
-Feel free to personalize this `README.md` file according to your repository structure, deployment notes, or other features you may add in the future.

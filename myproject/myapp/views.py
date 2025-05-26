@@ -893,7 +893,7 @@ def gallery_list(request):
 
 def gallery_detail(request, pk):
     photo = get_object_or_404(TravelGallery, pk=pk)
-    return render(request, 'myapp/gallery_detail.html', {'photo': photo})
+    return render(request, 'myapp/Quick links/gallery_detail.html', {'photo': photo})
 
 def cookies_view(request):
     return render(request, 'myapp/Support/cookies.html')
