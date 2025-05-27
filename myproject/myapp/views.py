@@ -415,12 +415,15 @@ def add_bus(request):
 def edit_bus(request, bus_id):
     bus = get_object_or_404(Bus, id=bus_id)
     if request.method == 'POST':
+        print("POST received")
         form = BusForm(request.POST, instance=bus)
         if form.is_valid():
             form.save()
             return redirect('admin_bus_list')
+        print(form.errors)
     else:
         form = BusForm(instance=bus)
+        form.initial['time'] = bus.time.strftime("%I:%M %p")
     return render(request, 'myapp/Manage/add_or_edit_bus.html', {'form': form, 'title': f'Edit {bus.bus_name}'})
 
 

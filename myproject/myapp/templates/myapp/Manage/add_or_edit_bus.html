@@ -37,6 +37,11 @@
 
             <label for="{{ form.time.id_for_label }}">Time:</label>
             {{ form.time }}
+            {% if form.time.errors %}
+                <div class="text-red-500 text-sm mt-1">
+                    {{ form.time.errors.0 }}
+                </div>
+            {% endif %}
             <datalist id="suggested-times">
                 <option value="06:00 AM">
                 <option value="07:00 AM">

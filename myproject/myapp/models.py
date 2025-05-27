@@ -158,10 +158,11 @@ class BusForm(forms.ModelForm):
     time = forms.CharField(
         widget=forms.TextInput(attrs={
             'type': 'text',
-            'id': 'destination',
+            'id': 'time',  # Fixed duplicated id="destination" — changed to "time"
             'list': 'suggested-times',
             'placeholder': 'HH:MM AM/PM',
-            'class': 'form-control'
+            'class': 'form-control',
+            'autocomplete': 'off'
         })
     )
 
@@ -172,7 +173,7 @@ class BusForm(forms.ModelForm):
     def clean_time(self):
         time_str = self.cleaned_data['time']
         try:
-            # Convert from 12-hour string to 24-hour format for DB if needed
+            # Convert from 12-hour string (e.g., "02:30 PM") to Python time object
             time_obj = datetime.strptime(time_str.strip(), "%I:%M %p").time()
             return time_obj
         except ValueError:
