@@ -92,6 +92,7 @@ python manage.py runserver
 | Desktop View                              | Mobile View                               |
 |-------------------------------------------|-------------------------------------------|
 | ![Desktop](readme_images/image.png)       | ![Mobile](readme_images/image-1.png)      |
+|https://github.com/user-attachments/assets/f237dce0-bb3d-4ca4-9083-4c1668fd030f|
 
 ### Available Buses
 
