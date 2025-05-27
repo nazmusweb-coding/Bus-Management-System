@@ -83,6 +83,7 @@ python manage.py runserver
 
 * User Interface: `http://127.0.0.1:8000/`
 * Admin Panel: `http://127.0.0.1:8000/admin/`
+* Live Host (until Saturday, 16 August 2025): `https://nazmusweb.pythonanywhere.com/`
 
 ## Screenshots
 
