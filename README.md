@@ -1,4 +1,4 @@
-﻿﻿# Bus Management System
+﻿# Bus Management System
 
 A **Bus Management System** built using **Python** and the **Django** web framework. This backend-focused project implements full CRUD functionality with a structured database. The system allows users to book bus tickets, view invoices, check bus availability, and manage bookings, while admins have full control over bus data through the Django admin panel.
 
@@ -6,24 +6,33 @@ A **Bus Management System** built using **Python** and the **Django** web framew
 
 ### User Features:
 
-* **Signup / Login**: New users can register and log in to their accounts.
+* **Signup / Signin**: New users can register and log in to their accounts.
 * **Book Tickets**: Book bus tickets by selecting destination, time, and available seats.
 * **Invoice Generation**: View booking details and download invoices.
 * **Availability Check**: Check bus availability for specific routes and times.
 * **Cancel Booking**: Cancel existing bookings and see status in user dashboard.
-* **Dashboard**: View current and past bookings, along with status.
+* **See Bookings**: View current and past bookings, along with status.
 
 ### Admin Features:
 
 * **Admin Panel**: Access Django's built-in admin interface.
-* **Manage Buses**: Add, update, and delete bus details.
+* **Manage Section**: Centralized tools for admin-level operations:
+  - **Manage Buses**: Add, update, and delete bus details.
+  - **Bookings**: View and manage all user bookings.
+  - **Booking Details**: Inspect detailed records of each booking.
+  - **Blog**: Post travel updates, announcements, and notices.
+  - **Gallery**: Upload and manage images related to buses or services.
+* **Monitor Bookings**: Track booking statuses and user activity.
+* **Custom Booking**: Manually create or cancel bookings as an admin.
+* **Seat Auto-Allocation**: Automatically assign seats if none are specified.
 * **Monitor Bookings**: View all user bookings and statuses.
 
 ## Technologies Used
 
-* **Backend**: Python, Django
-* **Frontend**: HTML, CSS
+* **Backend**: Django (Python)
+* **Frontend**: HTML5, Tailwind CSS, JavaScript
 * **Database**: SQLite (default), easily extendable to PostgreSQL or MySQL
+* **Deployment**: Compatible with platforms like PythonAnywhere
 
 ## Installation
 
@@ -36,7 +45,7 @@ https://github.com/nazmusweb.coding/bus-management-system.git
 2. **Navigate to the project directory**
 
 ```bash
-cd bus-management-system
+cd Bus-Management-System/myproject
 ```
 
 3. **Create a virtual environment**
@@ -77,7 +86,24 @@ python manage.py runserver
 
 ## Screenshots
 
-*TBA*
+### Homepage
+
+| Desktop View                              | Mobile View                               |
+|-------------------------------------------|-------------------------------------------|
+| ![Desktop](image.png)                     | ![Mobile](image-1.png)                    |
+
+### Available Buses
+
+| Desktop View                                  | Mobile View                                   |
+|-----------------------------------------------|-----------------------------------------------|
+| ![Desktop](image-6.png)                       | ![Mobile](image-5.png)                        |
+
+### Admin - Manage Buses
+
+| Desktop View                                     | Mobile View                                      |
+|--------------------------------------------------|--------------------------------------------------|
+| ![Desktop](image-3.png)                          | ![Mobile](image-4.png)                           |
+
 
 ## Contributing
 
