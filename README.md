@@ -90,19 +90,19 @@ python manage.py runserver
 
 | Desktop View                              | Mobile View                               |
 |-------------------------------------------|-------------------------------------------|
-| ![Desktop](image.png)                     | ![Mobile](image-1.png)                    |
+| ![Desktop](readme_images/image.png)       | ![Mobile](readme_images/image-1.png)      |
 
 ### Available Buses
 
 | Desktop View                                  | Mobile View                                   |
 |-----------------------------------------------|-----------------------------------------------|
-| ![Desktop](image-6.png)                       | ![Mobile](image-5.png)                        |
+| ![Desktop](readme_images/image-2.png)         | ![Mobile](readme_images/image-3.png)          |
 
 ### Admin - Manage Buses
 
 | Desktop View                                     | Mobile View                                      |
 |--------------------------------------------------|--------------------------------------------------|
-| ![Desktop](image-3.png)                          | ![Mobile](image-4.png)                           |
+| ![Desktop](readme_images/image-4.png)            | ![Mobile](readme_images/image-5.png)             |
 
 
 ## Contributing
